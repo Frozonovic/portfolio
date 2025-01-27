@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Project } from 't/Project'
 import ProjectCard from 'c/ProjectCard'
 import Footer from 'c/Footer'
@@ -183,24 +184,24 @@ const projects: Project[] = [
 
 export default function ProjectsPage() {
   return (
-    <main className="flex-grow">
+    <main className='flex-grow'>
       {/* Profile Header */}
-      <section className="py-12 bg-secondary text-white">
-        <div className="container mx-auto max-w-7xl flex flex-col lg:flex-row items-center gap-12 px-6">
+      <section className='py-12 bg-secondary text-white'>
+        <div className='container mx-auto max-w-7xl flex flex-col lg:flex-row items-center gap-12 px-6'>
           {/* Profile Picture */}
-          <div className="w-48 h-48">
-            <img
-              src="/images/profile.jpg"
-              alt="Profile"
-              className="w-full h-full rounded-full object-cover shadow-lg"
+          <div className='w-48 h-48'>
+            <Image
+              src='/images/profile.jpg'
+              alt='Profile'
+              className='w-full h-full rounded-full object-cover shadow-lg'
             />
           </div>
 
           {/* About Me */}
-          <div className="lg:w-2/3 text-center lg:text-left">
-            <h1 className="text-4xl font-bold mb-4">Hello, I'm James Lee</h1>
-            <p className="text-lg leading-relaxed">
-              I'm a passionate software developer with expertise in React, TypeScript, and Next.js.
+          <div className='lg:w-2/3 text-center lg:text-left'>
+            <h1 className='text-4xl font-bold mb-4'>Hello, I&apos;m James Lee</h1>
+            <p className='text-lg leading-relaxed'>
+              I&apos;m a passionate software developer with expertise in React, TypeScript, and Next.js.
               My projects reflect my dedication to building clean, efficient, and user-focused solutions.
               Outside of coding, I enjoy staying curious about the latest tech trends and exploring creative side projects.
             </p>
@@ -209,10 +210,10 @@ export default function ProjectsPage() {
       </section>
 
       {/* Project Grid */}
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto max-w-7xl px-6">
-          <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">My Projects</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <section className='py-12 bg-gray-50'>
+        <div className='container mx-auto max-w-7xl px-6'>
+          <h2 className='text-3xl font-bold text-center mb-8 text-gray-800'>My Projects</h2>
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
             {projects.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}

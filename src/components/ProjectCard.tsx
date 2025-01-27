@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from "react"
-import { ProjectCardProps } from "t/ProjectCardProps"
-import Link from "next/link"
+import Image from 'next/image'
+import { useState } from 'react'
+import { ProjectCardProps } from 't/ProjectCardProps'
+import Link from 'next/link'
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -19,7 +20,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             >
                 <div>
                     <div className="h-48 overflow-hidden rounded-lg mb-4">
-                        <img
+                        <Image
                             src={project.image}
                             alt={project.title}
                             className="w-full h-full object-cover"
@@ -66,7 +67,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             &times;
                         </button>
                         <div className="h-64 overflow-hidden rounded-lg mb-4">
-                            <img
+                            <Image
                                 src={project.image}
                                 alt={project.title}
                                 className="w-full h-full object-cover"
