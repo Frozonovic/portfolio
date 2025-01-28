@@ -194,7 +194,7 @@ export default function ProjectsPage() {
   return (
     <main className='flex-grow'>
       {/* Profile Header */}
-      <section className='py-12 bg-secondary text-white'>
+      <section className='py-12 bg-secondary text-white sm:bg-secondary'>
         <div className='container mx-auto max-w-7xl flex flex-col lg:flex-row items-center gap-12 px-6'>
           {/* Profile Picture */}
           <div className='w-48 h-48'>
