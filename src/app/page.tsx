@@ -134,6 +134,14 @@ const projects: Project[] = [
   },
   {
     id: '17',
+    title: 'Portfolio',
+    desc: 'Portfolio website showcasing my projects and web development skills',
+    tech: ['Next.js', 'React', 'TypeScript'],
+    image: '/images/portfolio.png',
+    link: 'https://www.github.com/Frozonovic/Portfolio',
+  },
+  {
+    id: '18',
     title: 'Predator Prey',
     desc: 'C++ program implementing a sequential and parallel version of the classic predator-prey simulation',
     tech: ['C++', 'Threads'],
@@ -141,7 +149,7 @@ const projects: Project[] = [
     link: 'https://www.github.com/Frozonovic/PredatorPrey',
   },
   {
-    id: '18',
+    id: '19',
     title: 'Priority Queue',
     desc: 'Java program modeling a custom implementation of the built-in PriorityQueue class',
     tech: ['Java', 'Data Structures'],
@@ -149,7 +157,7 @@ const projects: Project[] = [
     link: 'https://www.github.com/Frozonovic/PriorityQueue',
   },
   {
-    id: '19',
+    id: '20',
     title: 'Queue',
     desc: 'Java program modeling a custom implementation of the built-in Queue class',
     tech: ['Java', 'Data Structures'],
@@ -157,7 +165,7 @@ const projects: Project[] = [
     link: 'https://www.github.com/Frozonovic/Queue',
   },
   {
-    id: '20',
+    id: '21',
     title: 'Shell',
     desc: 'C program implementing a basic shell simulation',
     tech: ['C'],
@@ -165,7 +173,7 @@ const projects: Project[] = [
     link: 'https://www.github.com/Frozonovic/Shell',
   },
   {
-    id: '21',
+    id: '22',
     title: 'Stack',
     desc: 'Java program modeling a custom implementation of the built-in Stack class',
     tech: ['Java', 'Data Structures'],
@@ -173,20 +181,12 @@ const projects: Project[] = [
     link: 'https://www.github.com/Frozonovic/Stack',
   },
   {
-    id: '22',
+    id: '23',
     title: 'Stack Calculator',
     desc: 'Java program implementing a stack-based command-line calculator program',
     tech: ['Java'],
     image: '/images/stackcalculator.png',
     link: 'https://www.github.com/Frozonovic/StackCalc',
-  },
-  {
-    id: '23',
-    title: 'Portfolio',
-    desc: 'Portfolio website showcasing my projects and web development skills',
-    tech: ['Next.js', 'React', 'TypeScript'],
-    image: '/images/portfolio.png',
-    link: 'https://www.github.com/Frozonovic/Portfolio',
   },
 ]
 
