@@ -211,9 +211,10 @@ export default function ProjectsPage() {
           <div className='lg:w-2/3 text-center lg:text-left'>
             <h1 className='text-4xl font-bold mb-4'>Hello, I&apos;m James Lee</h1>
             <p className='text-lg leading-relaxed'>
-              I&apos;m a passionate software developer exploring React, TypeScript, and Next.js.
+              I&apos;m a software developer exploring the web development side of programming.
               My projects reflect my dedication to building clean, efficient, and user-focused solutions.
-              Outside of coding, I enjoy staying curious about the latest tech trends and exploring creative side projects.
+              Outside of coding, I enjoy staying curious about new developments in technology and in my free
+              time you can find me doing a variety of things including gaming, rock climbing, or playing music.
             </p>
           </div>
         </div>
