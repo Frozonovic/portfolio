@@ -180,6 +180,14 @@ const projects: Project[] = [
     image: '/images/stackcalculator.png',
     link: 'https://www.github.com/Frozonovic/StackCalc',
   },
+  {
+    id: '23',
+    title: 'Portfolio',
+    desc: 'Portfolio website showcasing my projects and web development skills',
+    tech: ['Next.js', 'React', 'TypeScript'],
+    image: '/images/portfolio.png',
+    link: 'https://www.github.com/Frozonovic/Portfolio',
+  },
 ]
 
 export default function ProjectsPage() {
@@ -193,6 +201,8 @@ export default function ProjectsPage() {
             <Image
               src='/images/profile.jpg'
               alt='Profile'
+              width={200}
+              height={200}
               className='w-full h-full rounded-full object-cover shadow-lg'
             />
           </div>
@@ -201,7 +211,7 @@ export default function ProjectsPage() {
           <div className='lg:w-2/3 text-center lg:text-left'>
             <h1 className='text-4xl font-bold mb-4'>Hello, I&apos;m James Lee</h1>
             <p className='text-lg leading-relaxed'>
-              I&apos;m a passionate software developer with expertise in React, TypeScript, and Next.js.
+              I&apos;m a passionate software developer exploring React, TypeScript, and Next.js.
               My projects reflect my dedication to building clean, efficient, and user-focused solutions.
               Outside of coding, I enjoy staying curious about the latest tech trends and exploring creative side projects.
             </p>

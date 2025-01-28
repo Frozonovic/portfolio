@@ -23,6 +23,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         <Image
                             src={project.image}
                             alt={project.title}
+                            width={1000}
+                            height={1000}
                             className="w-full h-full object-cover"
                         />
                     </div>
@@ -70,6 +72,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             <Image
                                 src={project.image}
                                 alt={project.title}
+                                width={500}
+                                height={500}
                                 className="w-full h-full object-cover"
                             />
                         </div>
