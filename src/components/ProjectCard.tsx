@@ -15,7 +15,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         <>
             {/* Card */}
             <div
-                className="border border-gray-300 bg-white p-4 rounded-lg shadow-lg flex flex-col justify-between h-full transition-all duration-500 hover:shadow-xl hover:scale-105 cursor-pointer"
+                className="section border border-gray-300 bg-white p-4 rounded-lg shadow-lg flex flex-col justify-between h-full transition-all duration-500 hover:shadow-xl hover:scale-105 cursor-pointer"
                 onClick={openModal}
             >
                 <div>
@@ -28,10 +28,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             className="w-full h-full object-cover"
                         />
                     </div>
-                    <h3 className="text-2xl font-semibold text-gray-800 min-h-[3rem] flex items-center">
+                    <h3 className="section-header text-2xl font-semibold text-gray-800 min-h-[3rem] flex items-center">
                         {project.title}
                     </h3>
-                    <p className="text-gray-700 mt-2 min-h-[4rem]">
+                    <p className="section-content text-gray-700 mt-2 min-h-[4rem]">
                         {project.desc}
                     </p>
                     <div className="mt-2 min-h-[2.5rem] flex flex-wrap items-start">

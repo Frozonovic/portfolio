@@ -194,7 +194,7 @@ export default function ProjectsPage() {
   return (
     <main className='flex-grow'>
       {/* Profile Header */}
-      <section className='py-12 bg-secondary text-white sm:bg-secondary'>
+      <section className='section py-12'>
         <div className='container mx-auto max-w-7xl flex flex-col lg:flex-row items-center gap-12 px-6'>
           {/* Profile Picture */}
           <div className='w-48 h-48'>
@@ -220,9 +220,9 @@ export default function ProjectsPage() {
       </section>
 
       {/* Project Grid */}
-      <section className='py-12 bg-gray-50'>
+      <section className='py-12'>
         <div className='container mx-auto max-w-7xl px-6'>
-          <h2 className='text-3xl font-bold text-center mb-8 text-gray-800'>My Projects</h2>
+          <h2 className='section-header text-3xl font-bold text-center mb-8'>My Projects</h2>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
             {projects.map((project) => (
               <ProjectCard key={project.id} project={project} />
