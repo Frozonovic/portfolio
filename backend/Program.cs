@@ -4,7 +4,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
-        policy => policy.WithOrigins("http://localhost:3000") // Replace with your frontend URL
+        policy => policy.WithOrigins(
+            "http://localhost:3000",
+            "https://jbl-frontend.up.railway.app") // TODO: Might need to replace
                         .AllowAnyHeader()
                         .AllowAnyMethod());
 });
@@ -41,5 +43,9 @@ app.MapControllers(); // This is important for API route mapping
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// 🔧 **Set the port dynamically for Railway**
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+app.Urls.Add($"http://0.0.0.0:{port}");
 
 app.Run();
