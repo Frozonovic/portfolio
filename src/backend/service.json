@@ -1,0 +1,8 @@
+{
+    "build": {
+      "env": "DOTNET_VERSION=8.0",
+      "preinstall": "dotnet restore",
+      "install": "dotnet build",
+      "start": "dotnet run"
+    }
+  }
