@@ -29,10 +29,6 @@ else
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
-}
-
-// Optionally enable HTTPS redirection if you want to handle HTTPS requests
-if (!app.Environment.isDevelopment()) {
     app.UseHttpsRedirection();
 }
 
