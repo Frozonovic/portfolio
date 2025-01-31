@@ -32,7 +32,9 @@ else
 }
 
 // Optionally enable HTTPS redirection if you want to handle HTTPS requests
-// app.UseHttpsRedirection();
+if (!app.Environment.isDevelopment()) {
+    app.UseHttpsRedirection();
+}
 
 app.UseRouting();
 
