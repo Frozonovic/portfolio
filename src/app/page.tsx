@@ -3,7 +3,6 @@ import Image from 'next/image'
 import { Project } from 't/Project'
 import ProjectCard from 'c/ProjectCard'
 import Footer from 'c/Footer'
-import { Header } from 'next/dist/lib/load-custom-routes'
 
 const fetchProjects = async (): Promise<Project[]> => {
   const response = await fetch('http://localhost:5000/api/github')
