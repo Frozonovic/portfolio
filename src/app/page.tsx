@@ -1,7 +1,9 @@
+import GitHubRepo from 't/GitHubRepo'
 import Image from 'next/image'
 import { Project } from 't/Project'
 import ProjectCard from 'c/ProjectCard'
 import Footer from 'c/Footer'
+import { Header } from 'next/dist/lib/load-custom-routes'
 
 const fetchProjects = async (): Promise<Project[]> => {
   const response = await fetch('http://localhost:5000/api/github')
@@ -16,7 +18,7 @@ const fetchProjects = async (): Promise<Project[]> => {
     throw new Error('Received empty response')
   }
 
-  return data.map((p: any) => ({
+  return data.map((p: GitHubRepo) => ({
     id: p.id,
     title: p.name,
     desc: p.description || "No description available",
@@ -60,7 +62,7 @@ const ProjectsPage = async () => {
 
       {/* Project Grid */}
       <section className='py-8'>
-      <h2 className='section-header text-3xl font-bold flex items-center h-full justify-center mb-8'>My Projects</h2>
+        <h2 className='section-header text-3xl font-bold flex items-center h-full justify-center mb-8'>My Projects</h2>
         <div className='container mx-auto max-w-7xl px-6'>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
             {projects.map((project) => (
