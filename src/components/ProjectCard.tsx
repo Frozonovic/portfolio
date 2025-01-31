@@ -35,14 +35,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         {project.desc}
                     </p>
                     <div className="mt-2 min-h-[2.5rem] flex flex-wrap items-start">
-                        {project.tech.map((t) => (
-                            <span
-                                key={t}
-                                className="bg-blue-100 text-blue-800 text-sm font-medium rounded-full px-3 py-1 mr-2 mb-1"
-                            >
-                                {t}
-                            </span>
-                        ))}
+                        <span
+                            className="bg-blue-100 text-blue-800 text-sm font-medium rounded-full px-3 py-1 mr-2 mb-1"
+                        >
+                            {project.tech}
+                        </span>
                     </div>
                 </div>
                 <div className="mt-4">
@@ -59,11 +56,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             {/* Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="relative bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-3xl">
+                    <div className="section relative bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-3xl">
                         {/* Close Button */}
                         <button
                             onClick={closeModal}
-                            className="absolute top-2 right-2 w-8 h-8 bg-white text-gray-600 flex items-center justify-center hover:text-gray-800 hover:bg-gray-300 rounded-full"
+                            className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center hover:text-gray-800 hover:bg-gray-300 rounded-full"
                             aria-label="Close"
                         >
                             &times;
@@ -72,24 +69,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             <Image
                                 src={project.image}
                                 alt={project.title}
-                                width={500}
-                                height={500}
+                                width={200}
+                                height={200}
                                 className="w-full h-full object-cover"
                             />
                         </div>
-                        <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                        <h3 className="text-2xl font-bold mb-2">
                             {project.title}
                         </h3>
-                        <p className="text-gray-700">{project.desc}</p>
+                        <p>{project.desc}</p>
                         <div className="mt-4 flex flex-wrap">
-                            {project.tech.map((t) => (
-                                <span
-                                    key={t}
-                                    className="bg-blue-100 text-blue-800 text-sm font-medium rounded-full px-3 py-1 mr-2 mb-2"
-                                >
-                                    {t}
-                                </span>
-                            ))}
+
+                            <span
+                                className="bg-blue-100 text-blue-800 text-sm font-medium rounded-full px-3 py-1 mr-2 mb-2"
+                            >
+                                {project.tech}
+                            </span>
                         </div>
                         <Link
                             href={project.link}
