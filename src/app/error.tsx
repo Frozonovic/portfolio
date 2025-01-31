@@ -15,17 +15,17 @@ const ErrorPage: React.FC<ErrorPageProps> = ({ error, reset }) => {
     }, [error])
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800">
+        <div className="flex flex-col items-center justify-center min-h-screen">
             <h1 className="text-4xl font-bold mb-4">Something Went Wrong</h1>
             <p className="text-lg mb-6">We encountered an unexpected error. Please try again later.</p>
             <div className="flex space-x-4">
                 <button
                     onClick={reset}
-                    className="px-6 py-3 bg-blue-600 text-white rounded shadow-lg hover:bg-blue-700"
+                    className="px-6 py-3 rounded shadow-lg"
                 >
                     Try Again
                 </button>
-                <Link href="@/" className="px-6 py-3 bg-gray-200 text-gray-800 rounded shadow-lg hover:bg-gray-300">
+                <Link href="/" className="px-6 py-3 bg-gray-200 text-gray-800 rounded shadow-lg hover:bg-gray-300">
                     Home
                 </Link>
             </div>

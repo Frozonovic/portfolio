@@ -1,4 +1,4 @@
-import { Project } from "./Project";
+import { Project } from "t/Project";
 
 export interface ProjectCardProps {
     project: Project

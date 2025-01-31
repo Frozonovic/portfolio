@@ -43,7 +43,7 @@ h6 {
   color: var(--foreground);
 }
 
-button {
+.button {
   font-family: inherit;
   font-size: 1rem;
   padding: 0.5rem 1rem;
@@ -55,12 +55,20 @@ button {
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-button:hover {
+.button:hover {
   background-color: #2563eb; /* Slightly darker blue */
   transform: scale(1.05); /* Subtle scaling effect */
 }
 
 /* Section Styling */
+.summary {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
 .section {
   background-color: var(--card-bg);
   border: 1px solid var(--card-border);
@@ -71,7 +79,6 @@ button:hover {
 }
 
 .section-header {
-  margin-bottom: 1rem;
   color: var(--foreground);
 }
 
@@ -85,6 +92,7 @@ button:hover {
   padding: 1rem 0;
   background-color: var(--card-bg);
   text-align: center;
+  justify-content: center;
   border-top: 1px solid var(--card-border);
   color: var(--secondary);
 }
