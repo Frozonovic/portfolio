@@ -53,3 +53,4 @@ secrets.json
 # VSCode
 .vscode/
 portfolio.sln
+.fake
