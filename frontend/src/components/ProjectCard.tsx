@@ -35,11 +35,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         {project.description}
                     </p>
                     <div className="mt-2 min-h-[2.5rem] flex flex-wrap items-start">
-                        <span
-                            className="bg-blue-100 text-blue-800 text-sm font-medium rounded-full px-3 py-1 mr-2 mb-1"
-                        >
-                            {project.languages}
-                        </span>
+                        {project.languages.map((t) => (
+                            <span
+                                key={t}
+                                className="bg-blue-100 text-blue-800 text-sm font-medium rounded-full px-3 py-1 mr-2 mb-2"
+                            >
+                                {t}
+                            </span>
+                        ))}
                     </div>
                 </div>
                 <div className="mt-4">
