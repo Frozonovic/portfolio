@@ -79,12 +79,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         </h3>
                         <p>{project.description}</p>
                         <div className="mt-4 flex flex-wrap">
-
-                            <span
-                                className="bg-blue-100 text-blue-800 text-sm font-medium rounded-full px-3 py-1 mr-2 mb-2"
-                            >
-                                {project.languages}
-                            </span>
+                            {project.languages.map((t) => (
+                                <span
+                                    key={t}
+                                    className="bg-blue-100 text-blue-800 text-sm font-medium rounded-full px-3 py-1 mr-2 mb-2"
+                                >
+                                    {t}
+                                </span>
+                            ))}
                         </div>
                         <Link
                             href={project.svn_url}
