@@ -32,7 +32,7 @@ public class GitHubController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<List<GitHubRepository>> GetGitHubProjects()
+    public async Task<ActionResult<List<GitHubRepository>>> GetGitHubProjects()
     {
         try
         {
@@ -46,7 +46,7 @@ public class GitHubController : ControllerBase
                 repo.languages = await GetLanguages(repo.name);
             }
 
-            return repos;
+            return Ok(repos);
         }
         catch (HttpRequestException e)
         {
