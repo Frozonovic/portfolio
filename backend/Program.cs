@@ -6,7 +6,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         policy => policy.WithOrigins(
             "http://localhost:3000",
-            "https://jbl-frontend.up.railway.app") // TODO: Might need to replace
+            "https://jbl-frontend.up.railway.app")
                         .AllowAnyHeader()
                         .AllowAnyMethod());
 });

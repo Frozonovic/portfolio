@@ -1,5 +1,5 @@
 type GitHubRepo = {
-    id: string
+    id: number
     name: string
     description: string | null
     languages: string[] | null
