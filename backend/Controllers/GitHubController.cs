@@ -1,9 +1,9 @@
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 public class GitHubRepository
 {
@@ -19,8 +19,8 @@ public class GitHubRepository
 public class GitHubController : ControllerBase
 {
     private readonly HttpClient client;
-    private readonly string token;
-    private readonly string user;
+    private static readonly string token;
+    private static readonly string user;
 
 
     public GitHubController(IHttpClientFactory httpClientFactory)
