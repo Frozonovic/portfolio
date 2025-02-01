@@ -22,29 +22,29 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     <div className="h-48 overflow-hidden rounded-lg mb-4">
                         <Image
                             src={project.image}
-                            alt={project.title}
+                            alt={project.name}
                             width={1000}
                             height={1000}
                             className="w-full h-full object-cover"
                         />
                     </div>
                     <h3 className="section-header text-2xl font-semibold text-gray-800 min-h-[3rem] flex items-center">
-                        {project.title}
+                        {project.name}
                     </h3>
                     <p className="section-content text-gray-700 mt-2 min-h-[4rem]">
-                        {project.desc}
+                        {project.description}
                     </p>
                     <div className="mt-2 min-h-[2.5rem] flex flex-wrap items-start">
                         <span
                             className="bg-blue-100 text-blue-800 text-sm font-medium rounded-full px-3 py-1 mr-2 mb-1"
                         >
-                            {project.tech}
+                            {project.languages}
                         </span>
                     </div>
                 </div>
                 <div className="mt-4">
                     <Link
-                        href={project.link}
+                        href={project.svn_url}
                         className="inline-block w-full text-center px-5 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
                         target="_blank"
                     >
@@ -68,26 +68,26 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         <div className="h-64 overflow-hidden rounded-lg mb-4">
                             <Image
                                 src={project.image}
-                                alt={project.title}
+                                alt={project.name}
                                 width={200}
                                 height={200}
                                 className="w-full h-full object-cover"
                             />
                         </div>
                         <h3 className="text-2xl font-bold mb-2">
-                            {project.title}
+                            {project.name}
                         </h3>
-                        <p>{project.desc}</p>
+                        <p>{project.description}</p>
                         <div className="mt-4 flex flex-wrap">
 
                             <span
                                 className="bg-blue-100 text-blue-800 text-sm font-medium rounded-full px-3 py-1 mr-2 mb-2"
                             >
-                                {project.tech}
+                                {project.languages}
                             </span>
                         </div>
                         <Link
-                            href={project.link}
+                            href={project.svn_url}
                             className="inline-block mt-4 px-5 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
                             target="_blank"
                         >

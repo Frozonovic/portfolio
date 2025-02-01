@@ -1,8 +1,8 @@
 export type Project = {
     id: string
-    title: string
-    desc: string
-    tech: string[]
+    name: string
+    description: string
+    languages: string[]
     image: string
-    link: string
+    svn_url: string
 }

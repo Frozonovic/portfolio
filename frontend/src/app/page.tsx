@@ -20,11 +20,11 @@ const fetchProjects = async (): Promise<Project[]> => {
 
   return data.map((p: GitHubRepo) => ({
     id: p.id,
-    title: p.name,
-    desc: p.description || "No description available",
-    tech: p.language,
+    name: p.name,
+    description: p.description || "No description available",
+    languages: p.languages,
     image: `/images/${(p.name).toLowerCase()}.png`,
-    link: p.svn_url,
+    svn_url: p.svn_url,
   }))
 }
 
