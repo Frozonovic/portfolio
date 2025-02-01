@@ -19,15 +19,13 @@ public class GitHubRepository
 public class GitHubController : ControllerBase
 {
     private readonly HttpClient client;
-    private static readonly string token;
-    private static readonly string user;
+    private static readonly string token = Enviornment.GetEnvironmentVariable("TOKEN");
+    private static readonly string user = Environment.GetEnvironmentVariable("USER");
 
 
     public GitHubController(IHttpClientFactory httpClientFactory)
     {
         client = httpClientFactory.CreateClient();
-        token = Environment.GetEnvironmentVariable("TOKEN");
-        user = Environment.GetEnvironmentVariable("USER");
 
         client.DefaultRequestHeaders.Add("User-Agent", "backend");
         client.DefaultRequestHeaders.Add("Authorization", $"token {token}");
