@@ -50,7 +50,7 @@ public class GitHubController : ControllerBase
         }
         catch (HttpRequestException e)
         {
-            return StatisCode(500, new { message = "Failed to fetch repositories", error = e.message });
+            return StatisCode(500, new { message = "Failed to fetch repositories", error = e.Message });
         }
 
 
