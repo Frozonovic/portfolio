@@ -31,7 +31,7 @@ public class GitHubController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<List<GitHubRepository>> GetRepositories()
+    public async Task<List<GitHubRepository>> GetGitHubProjects()
     {
         var repoLink = $"https://api.github.com/users/{user}/repos";
 
