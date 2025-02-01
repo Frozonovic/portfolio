@@ -19,7 +19,7 @@ public class GitHubRepository
 public class GitHubController : ControllerBase
 {
     private readonly HttpClient client;
-    private static readonly string token = Enviornment.GetEnvironmentVariable("TOKEN");
+    private static readonly string token = Environment.GetEnvironmentVariable("TOKEN");
     private static readonly string user = Environment.GetEnvironmentVariable("USER");
 
 
@@ -50,7 +50,7 @@ public class GitHubController : ControllerBase
         }
         catch (HttpRequestException e)
         {
-            return StatisCode(500, new { message = "Failed to fetch repositories", error = e.Message });
+            return StatusCode(500, new { message = "Failed to fetch repositories", error = e.Message });
         }
 
 
