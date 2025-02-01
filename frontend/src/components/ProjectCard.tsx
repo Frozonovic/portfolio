@@ -50,6 +50,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         href={project.svn_url}
                         className="inline-block w-full text-center px-5 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
                         target="_blank"
+                        onClick={(e) => e.stopPropagation()}
                     >
                         View Project
                     </Link>
