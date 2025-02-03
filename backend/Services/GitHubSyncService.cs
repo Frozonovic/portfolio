@@ -1,14 +1,11 @@
-using backend;
 using backend.Data;
 using backend.Models;
 using backend.Services;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
-using System;
 using System.Linq;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -24,7 +21,7 @@ namespace backend.Services
         private readonly ApplicationDbContext _dbContext;
         private readonly HttpClient _httpClient;
 
-        public GitHubSyncService(ILoger<GitHubSyncService> logger, RedisCacheService redisCacheService, ApplicationDbContext dbContext, IHttpClientFactory httpClientFactory)
+        public GitHubSyncService(ILogger<GitHubSyncService> logger, RedisCacheService redisCacheService, ApplicationDbContext dbContext, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
             _redisCacheService = redisCacheService;
