@@ -1,51 +1,20 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extension.Hosting;
 
-// Configure CORS
-builder.Services.AddCors(options =>
+public class Program
 {
-    options.AddPolicy("AllowFrontend",
-        policy => policy.WithOrigins(
-            "http://localhost:3000",
-            "https://jbl-frontend.up.railway.app")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod());
-});
+    public static void Main(string[] args)
+    {
+        Host.CreateDefaultBuilder(args)
+            .ConfigureServices((hostContext, services) =>
+            {
+                services.AddHostedService<GitHubSyncService>();
 
-// Register HttpClient
-builder.Services.AddHttpClient();
+                services.AddSingleton<RedisCacheService>(sp => new RedisCacheService(hostContext.Configuration["REDIS_CONNECTION_STRING"]));
 
-// Register services, such as controllers and views
-builder.Services.AddControllers(); // Use this instead of AddControllersWithViews for API-only apps
+                services.addHttpClient();
 
-var app = builder.Build();
-
-// Use CORS
-app.UseCors("AllowFrontend");
-
-// Configure middleware
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
+                services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(hostContext.Configureation.GetConnectionString("PostgresConnectionString")));
+            });
+    }
 }
-else
-{
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
-    app.UseHttpsRedirection();
-}
-
-app.UseRouting();
-
-// Map controllers for API routes
-app.MapControllers(); // This is important for API route mapping
-
-// Optionally configure a default route if you need it
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-// 🔧 **Set the port dynamically for Railway**
-var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-app.Urls.Add($"http://*:{port}");
-
-app.Run();

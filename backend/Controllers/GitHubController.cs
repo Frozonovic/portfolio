@@ -1,75 +1,64 @@
-using Newtonsoft.Json;
+using backend.Data;
+using backend.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 
-public class GitHubRepository
+namespace backend.Controllers
 {
-    public required int id { get; set; }
-    public required string name { get; set; }
-    public string? description { get; set; }
-    public required string svn_url { get; set; }
-    public required List<string> languages { get; set; } = new List<string>();
-}
-
-[ApiController]
-[Route("api/[controller]")]
-public class GitHubController : ControllerBase
-{
-    private readonly HttpClient client;
-    private static readonly string token = Environment.GetEnvironmentVariable("TOKEN");
-    private static readonly string user = Environment.GetEnvironmentVariable("USER");
-
-
-    public GitHubController(IHttpClientFactory httpClientFactory)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class GitHubController : ControllerBase
     {
-        client = httpClientFactory.CreateClient();
+        private readonly string USER = Environment.GetEnvironmentVariable("USER");
+        private readonly string TOKEN = Environment.GetEnvironmentVariable("TOKEN");
 
-        client.DefaultRequestHeaders.Add("User-Agent", "backend");
-        client.DefaultRequestHeaders.Add("Authorization", $"token {token}");
-    }
+        private readonly RedisCacheService _redisCacheService;
+        private readonly ApplicationDbContext _dbContext;
+        private readonly HttpClient _httpClient;
 
-    [HttpGet]
-    public async Task<ActionResult<List<GitHubRepository>>> GetGitHubProjects()
-    {
-        try
+        public GitHubController(RedisCacheService redisCacheService, ApplicationDbContext dbContext, IHttpClientFactory httpClientFactory)
         {
-            var repoLink = $"https://api.github.com/users/{user}/repos";
+            _redisCacheService = redisCacheService;
+            _dbContext = dbContext;
+            _httpClient = httpClientFactory.CreateClient();
 
-            var response = await client.GetStringAsync(repoLink);
-            var repos = JsonConvert.DeserializeObject<List<GitHubRepository>>(response);
+            _httpClient.DefaultRequestHeaders.Add("User-Agent", "backend");
+            _httpClient.DefaultRequestHeaders.Add("Authorization", $"token {TOKEN}");
+        }
 
-            foreach (var repo in repos)
+        [HttpGet]
+        public async Task<IActionResult> GetGetHubProjects()
+        {
+            var cacheKey = "github_projects_cache_key";
+
+            var cachedData = await _redisCacheService.GetCacheAsync(cacheKey);
+            if (!string.IsNullOrEmpty(cachedData))
             {
-                repo.languages = await GetLanguages(repo.name);
+                return Ok(JsonConvert.DeserializeObject<List<Repository>>(cachedData));
+            }
+
+            var reposFromDb = await _dbContext.Repositories.ToListAsync();
+            if (reposFromDb.Any())
+            {
+                var reposJson = JsonConvert.SerializeObject(reposFromDb);
+                await _redisCacheService.SetCacheAsync(cacheKey, reposJson);
+                return Ok(reposFromDb);
+            }
+
+            var response = await _httpClient.GetAsync($"https://api.github.com/users/{USER}/repos");
+            var repos = JsonConvert.DeserializeObject<List<Repository>>(response);
+
+            if (response != null)
+            {
+                _dbContext.Repositories.AddRange(repos);
+                await _dbContext.SaveChangesAsync();
+
+                var reposJson = JsonConvert.SerializeObject(repos);
+                await _redisCacheService.SetCacheAsync(cacheKey, reposJson);
             }
 
             return Ok(repos);
         }
-        catch (HttpRequestException e)
-        {
-            return StatusCode(500, new { message = "Failed to fetch repositories", error = e.Message });
-        }
-
-
     }
-
-    private async Task<List<string>> GetLanguages(string repoName)
-    {
-        try
-        {
-            var langLink = $"https://api.github.com/repos/{user}/{repoName}/languages";
-
-            var response = await client.GetStringAsync(langLink);
-            var langs = JsonConvert.DeserializeObject<Dictionary<string, object>>(response);
-
-            return new List<string>(langs.Keys);
-        }
-        catch
-        {
-            return new List<string>();
-        }
-    }
-}
