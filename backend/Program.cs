@@ -12,11 +12,11 @@ public class Program
             {
                 services.AddHostedService<GitHubSyncService>();
 
-                services.AddSingleton<RedisCacheService>(sp => new RedisCacheService(hostContext.Configuration["REDIS_CONNECTION_STRING"]));
+                services.AddSingleton<RedisCacheService>(sp => new RedisCacheService());
 
                 services.addHttpClient();
 
-                services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(hostContext.Configureation.GetConnectionString("PostgresConnectionString")));
+                services.AddDbContext<ApplicationDbContext>(options => new ApplicationDbContext(options));
             });
     }
 }
