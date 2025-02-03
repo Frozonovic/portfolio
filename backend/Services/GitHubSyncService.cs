@@ -45,7 +45,7 @@ namespace backend.Services
                     var response = await _httpClient.GetAsync($"https://api.github.com/users/{USER}/repos");
                     var repos = JsonConvert.DeserializeObject<List<Repository>>(response);
 
-                    if (response != null && response.Any())
+                    if (response != null)
                     {
                         foreach (var repo in repos)
                         {
