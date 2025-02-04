@@ -1,5 +1,5 @@
-var FRONTEND_PUBLIC = Environment.GetEnvironmentVariable("FRONTEND_PUBLIC");
-var FRONTEND_PRIVATE = Environment.GetEnvironmentVariable("FRONTEND_PRIVATE");
+string FRONTEND_PUBLIC = Environment.GetEnvironmentVariable("FRONTEND_PUBLIC") ?? "https://localhost:3000";
+string FRONTEND_PRIVATE = Environment.GetEnvironmentVariable("FRONTEND_PRIVATE") ?? "http://localhost:3000";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +10,8 @@ builder.Services.AddCors(options =>
         policy => policy.WithOrigins(
             "http://localhost:3000",
             FRONTEND_PRIVATE,
-            FRONTEND_PUBLIC)
+            FRONTEND_PUBLIC
+            )
                         .AllowAnyHeader()
                         .AllowAnyMethod());
 });
@@ -19,7 +20,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddHttpClient();
 
 // Register services, such as controllers and views
-builder.Services.AddControllers(); // Use this instead of AddControllersWithViews for API-only apps
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
