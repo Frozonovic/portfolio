@@ -1,4 +1,7 @@
-var URL = Enviornment.GetEnvironmentVariable("FRONTEND_URL") ?? "http://localhost:3000";
+using backend.Data;
+using backend.Services;
+
+var URL = Environment.GetEnvironmentVariable("FRONTEND_URL") ?? "http://localhost:3000";
 
 var builder = WebApplication.CreateBuilder(args);
 

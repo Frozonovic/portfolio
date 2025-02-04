@@ -13,7 +13,7 @@ namespace backend.Services
 
         public RedisCacheService(ILogger<RedisCacheService> logger)
         {
-            _redis = ConnectionMultiplexer.Connect(Enviornment.GetEnvironmentVariable("REDIS_URL"));
+            _redis = ConnectionMultiplexer.Connect(Environment.GetEnvironmentVariable("REDIS_URL"));
             _logger = logger;
         }
 
