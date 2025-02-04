@@ -66,14 +66,14 @@ namespace backend.Controllers
 
                 if (langs == null)
                 {
-                    return [];
+                    return new List<string>();
                 }
 
-                return [.. langs.Keys];
+                return langs.Keys.ToList();
             }
             catch
             {
-                return [];
+                return new List<string>();
             }
         }
     }
