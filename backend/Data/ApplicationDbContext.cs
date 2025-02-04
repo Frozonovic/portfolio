@@ -10,5 +10,15 @@ namespace backend.Data
         }
 
         public DbSet<GitHubRepo> GitHubRepos { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                // Railway provides DATABASE_URL environment variable
+                var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+                optionsBuilder.UseNpgsql(databaseUrl);
+            }
+        }
     }
 }
