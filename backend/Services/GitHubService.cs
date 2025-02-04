@@ -5,6 +5,11 @@ using Microsoft.Extensions.Logging;
 
 namespace backend.Services
 {
+    public interface IGitHubService
+    {
+        Task<List<GitHubRepo>> GetUserRepositoriesAsync();
+    }
+
     public class GitHubSettings
     {
         public string Username { get; set; } = null!;
