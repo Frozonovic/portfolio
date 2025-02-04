@@ -1,6 +1,6 @@
+using backend.Data;
 using backend.Models;
 using backend.Services;
-using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
@@ -8,18 +8,26 @@ namespace backend.Controllers
     [Route("api/[controller]")]
     public class GitHubController : ControllerBase
     {
-        private readonly IRepositoryService _repositoryService;
+        private readonly ICacheService _cacheService;
+        private readonly ApplicationDbContext _dbContext;
 
-        public GitHubController(IRepositoryService repositoryService)
+        public GitHubController(ICacheService cacheService, ApplicationDbContext dbContext)
         {
-            _repositoryService = repositoryService;
+            _cacheService = cacheService;
+            _dbContext = dbContext;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Repository>>> GetRepositories()
+        public async Task<ActionResult<List<GitHubRepo>>> GetRepositories()
         {
-            var repositories = await _repositoryService.GetRepositoriesAsync();
-            return Ok(repositories);
+            // Try cache first
+            var cachedRepos = await _cacheService.GetAsync<List<GitHubRepo>>("github_repos");
+            if (cachedRepos != null)
+                return cachedRepos;
+
+            // Fallback to database
+            var repos = await _dbContext.GitHubRepos.ToListAsync();
+            return repos;
         }
     }
 }

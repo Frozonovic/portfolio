@@ -1,23 +1,25 @@
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using backend.Data;
+using backend.Services;
 
 namespace backend.Services
 {
     public class GitHubSyncService : BackgroundService
     {
+        private readonly IGitHubService _githubService;
+        private readonly ICacheService _cacheService;
+        private readonly ApplicationDbContext _dbContext;
         private readonly ILogger<GitHubSyncService> _logger;
-        private readonly IRepositoryService _repositoryService;
-        private readonly RedisCacheService _cacheService;
-        private const int SYNC_INTERVAL_MINUTES = 60;
 
         public GitHubSyncService(
-            ILogger<GitHubSyncService> logger,
-            IRepositoryService repositoryService,
-            RedisCacheService cacheService)
+            IGitHubService githubService,
+            ICacheService cacheService,
+            ApplicationDbContext dbContext,
+            ILogger<GitHubSyncService> logger)
         {
-            _logger = logger;
-            _repositoryService = repositoryService;
+            _githubService = githubService;
             _cacheService = cacheService;
+            _dbContext = dbContext;
+            _logger = logger;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -26,17 +28,24 @@ namespace backend.Services
             {
                 try
                 {
-                    _logger.LogInformation("Starting GitHub repository sync");
-                    await _repositoryService.SyncRepositoriesAsync();
-                    await _cacheService.InvalidateRepositoriesCache();
-                    _logger.LogInformation("GitHub repository sync completed");
+                    var repos = await _githubService.GetUserRepositoriesAsync();
+
+                    // Update cache
+                    await _cacheService.SetAsync("github_repos", repos, TimeSpan.FromHours(1));
+
+                    // Update database
+                    await _dbContext.GitHubRepos.ExecuteDeleteAsync(stoppingToken);
+                    await _dbContext.GitHubRepos.AddRangeAsync(repos, stoppingToken);
+                    await _dbContext.SaveChangesAsync(stoppingToken);
+
+                    _logger.LogInformation("GitHub repositories synchronized successfully");
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Error occurred while syncing repositories");
+                    _logger.LogError(ex, "Error synchronizing GitHub repositories");
                 }
 
-                await Task.Delay(TimeSpan.FromMinutes(SYNC_INTERVAL_MINUTES), stoppingToken);
+                await Task.Delay(TimeSpan.FromHours(6), stoppingToken);
             }
         }
     }
