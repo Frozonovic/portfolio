@@ -5,3 +5,4 @@ namespace backend.Services
         Task<IEnumerable<Repository>> GetRepositoriesAsync();
         Task SyncRepositoriesAsync();
     }
+}
