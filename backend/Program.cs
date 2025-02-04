@@ -1,33 +1,27 @@
+// Environment variables for CORS configuration
 string FRONTEND_PUBLIC = Environment.GetEnvironmentVariable("FRONTEND_PUBLIC") ?? "https://localhost:3000";
 string FRONTEND_PRIVATE = Environment.GetEnvironmentVariable("FRONTEND_PRIVATE") ?? "http://localhost:3000";
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure CORS
+// Service configuration
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         policy => policy.WithOrigins(
             "http://localhost:3000",
             FRONTEND_PRIVATE,
-            FRONTEND_PUBLIC
-            )
-                        .AllowAnyHeader()
-                        .AllowAnyMethod());
+            FRONTEND_PUBLIC)
+        .AllowAnyHeader()
+        .AllowAnyMethod());
 });
 
-// Register HttpClient
 builder.Services.AddHttpClient();
-
-// Register services, such as controllers and views
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Use CORS
-app.UseCors("AllowFrontend");
-
-// Configure middleware
+// Middleware pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -40,16 +34,10 @@ else
 }
 
 app.UseRouting();
+app.UseCors("AllowFrontend");
+app.MapControllers();
 
-// Map controllers for API routes
-app.MapControllers(); // This is important for API route mapping
-
-// Optionally configure a default route if you need it
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-// 🔧 **Set the port dynamically for Railway**
+// Configure port for Railway deployment
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
 app.Urls.Add($"http://*:{port}");
 
