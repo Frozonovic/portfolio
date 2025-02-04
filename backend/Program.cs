@@ -37,6 +37,41 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// Ensure database is created
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        context.Database.EnsureCreated();
+
+        // Check if database is empty
+        if (!context.Repositories.Any())
+        {
+            // Trigger initial sync
+            var repoService = services.GetRequiredService<IRepositoryService>();
+            await repoService.SyncRepositoriesAsync();
+        }
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while initializing the database.");
+    }
+}
+
+// Add error handling middleware
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsJsonAsync(new { error = "An unexpected error occurred" });
+    });
+});
+
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {

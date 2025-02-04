@@ -22,7 +22,21 @@ namespace backend.Services
 
         public async Task<IEnumerable<Repository>> GetRepositoriesAsync()
         {
-            return await _context.Repositories.ToListAsync();
+            try
+            {
+                var repositories = await _context.Repositories.ToListAsync();
+                if (!repositories.Any())
+                {
+                    await SyncRepositoriesAsync();
+                    repositories = await _context.Repositories.ToListAsync();
+                }
+                return repositories;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving repositories");
+                throw;
+            }
         }
 
         public async Task SyncRepositoriesAsync()
