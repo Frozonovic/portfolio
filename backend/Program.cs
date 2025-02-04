@@ -1,3 +1,6 @@
+var FRONTEND_PUBLIC = Environment.GetEnvironmentVariable("FRONTEND_PUBLIC");
+var FRONTEND_PRIVATE = Environment.GetEnvironmentVariable("FRONTEND_PRIVATE");
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure CORS
@@ -6,7 +9,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         policy => policy.WithOrigins(
             "http://localhost:3000",
-            "https://jbl-frontend.up.railway.app")
+            FRONTEND_PRIVATE,
+            FRONTEND_PUBLIC)
                         .AllowAnyHeader()
                         .AllowAnyMethod());
 });
