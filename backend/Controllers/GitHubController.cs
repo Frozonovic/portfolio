@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 
 public class GitHubRepository
