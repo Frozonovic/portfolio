@@ -1,48 +1,51 @@
-using backend.Data;
-using backend.Services;
-
-using Microsoft.EntityFrameworkCore;
-using StackExchange.Redis;
-using Polly;
-
-// Use internal URLs when available
-var DATABASE_PRIVATE_URL = Environment.GetEnvironmentVariable("DATABASE_PRIVATE_URL");
-var REDIS_PRIVATE_URL = Environment.GetEnvironmentVariable("REDIS_PRIVATE_URL");
-
-var DATABASE_URL = DATABASE_PRIVATE_URL ?? 
-    Environment.GetEnvironmentVariable("DATABASE_URL") ?? 
-    "postgresql://postgres:password@localhost:5432/railway";
-
-var REDIS_URL = REDIS_PRIVATE_URL ?? 
-    Environment.GetEnvironmentVariable("REDIS_URL") ?? 
-    "redis://localhost:6379";
-
 var builder = WebApplication.CreateBuilder(args);
 
-// Add database with retry policy
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+// Configure CORS
+builder.Services.AddCors(options =>
 {
-    options.UseNpgsql(DATABASE_URL, npgsqlOptions =>
-    {
-        npgsqlOptions.EnableRetryOnFailure(
-            maxRetryCount: 5,
-            maxRetryDelay: TimeSpan.FromSeconds(30),
-            errorCodesToAdd: null);
-    });
+    options.AddPolicy("AllowFrontend",
+        policy => policy.WithOrigins(
+            "http://localhost:3000",
+            "https://jbl-frontend.up.railway.app")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
 });
 
-// Add Redis with configuration
-var redisOptions = ConfigurationOptions.Parse(REDIS_URL);
-redisOptions.ConnectRetry = 5;
-redisOptions.ConnectTimeout = 5000;
-builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
-    ConnectionMultiplexer.Connect(redisOptions));
+// Register HttpClient
+builder.Services.AddHttpClient();
 
-// Add GitHub service
-builder.Services.AddHttpClient<IGitHubService, GitHubService>();
+// Register services, such as controllers and views
+builder.Services.AddControllers(); // Use this instead of AddControllersWithViews for API-only apps
 
-// Add background service
-builder.Services.AddHostedService<GitHubSyncService>();
+var app = builder.Build();
 
-// Add controllers
-builder.Services.AddControllers();
+// Use CORS
+app.UseCors("AllowFrontend");
+
+// Configure middleware
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+    app.UseHttpsRedirection();
+}
+
+app.UseRouting();
+
+// Map controllers for API routes
+app.MapControllers(); // This is important for API route mapping
+
+// Optionally configure a default route if you need it
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// 🔧 **Set the port dynamically for Railway**
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+app.Urls.Add($"http://*:{port}");
+
+app.Run();

@@ -1,36 +1,68 @@
-using backend.Data;
-using backend.Models;
-using backend.Services;
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
-namespace backend.Controllers
+public class GitHubRepository
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class GitHubController : ControllerBase
-    {
-        private readonly ICacheService _cacheService;
-        private readonly ApplicationDbContext _dbContext;
+    public required int id { get; set; }
+    public required string name { get; set; }
+    public string? description { get; set; }
+    public required string svn_url { get; set; }
+    public required List<string> languages { get; set; } = new List<string>();
+}
 
-        public GitHubController(ICacheService cacheService, ApplicationDbContext dbContext)
+[ApiController]
+[Route("api/[controller]")]
+public class GitHubController : ControllerBase
+{
+    private readonly HttpClient client;
+    private static readonly string token = Environment.GetEnvironmentVariable("TOKEN");
+    private static readonly string user = Environment.GetEnvironmentVariable("USER");
+
+
+    public GitHubController(IHttpClientFactory httpClientFactory)
+    {
+        client = httpClientFactory.CreateClient();
+
+        client.DefaultRequestHeaders.Add("User-Agent", "backend");
+        client.DefaultRequestHeaders.Add("Authorization", $"token {token}");
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<List<GitHubRepository>>> GetGitHubProjects()
+    {
+        try
         {
-            _cacheService = cacheService;
-            _dbContext = dbContext;
+            var repoLink = $"https://api.github.com/users/{user}/repos";
+
+            var response = await client.GetStringAsync(repoLink);
+            var repos = JsonConvert.DeserializeObject<List<GitHubRepository>>(response);
+
+            foreach (var repo in repos)
+            {
+                repo.languages = await GetLanguages(repo.name);
+            }
+
+            return Ok(repos);
+        }
+        catch (HttpRequestException e)
+        {
+            return StatusCode(500, new { message = "Failed to fetch repositories", error = e.Message });
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<GitHubRepo>>> GetRepositories()
-        {
-            // Try cache first
-            var cachedRepos = await _cacheService.GetAsync<List<GitHubRepo>>("github_repos");
-            if (cachedRepos != null)
-                return cachedRepos;
 
-            // Fallback to database
-            var repos = await _dbContext.GitHubRepos.ToListAsync();
-            return repos;
+    }
+
+    private async Task<List<string>> GetLanguages(string repoName)
+    {
+        try
+        {
+            var langLink = $"https://api.github.com/repos/{user}/{repoName}/languages";
+
+            var response = await client.GetStringAsync(langLink);
+            var langs = JsonConvert.DeserializeObject<Dictionary<string, object>>(response);
+
+            return new List<string>(langs.Keys);
+        }
+        catch
+        {
+            return new List<string>();
         }
     }
 }
