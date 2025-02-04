@@ -1,79 +1,75 @@
-using Backend.Models;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Backend.Controllers
+public class GitHubRepository
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class GitHubController : ControllerBase
+    public required int id { get; set; }
+    public required string name { get; set; }
+    public string? description { get; set; }
+    public required string svn_url { get; set; }
+    public required List<string> languages { get; set; } = new List<string>();
+}
+
+[ApiController]
+[Route("api/[controller]")]
+public class GitHubController : ControllerBase
+{
+    private readonly HttpClient client;
+    private static readonly string token = Environment.GetEnvironmentVariable("TOKEN");
+    private static readonly string user = Environment.GetEnvironmentVariable("USER");
+
+
+    public GitHubController(IHttpClientFactory httpClientFactory)
     {
-        private readonly HttpClient _client;
-        private const string GithubApiBaseUrl = "https://api.github.com";
-        private static readonly string _token = Environment.GetEnvironmentVariable("TOKEN") ??
-            throw new InvalidOperationException("GitHub token not found");
-        private static readonly string _user = Environment.GetEnvironmentVariable("USER") ??
-            throw new InvalidOperationException("GitHub user not found");
+        client = httpClientFactory.CreateClient();
 
-        public GitHubController(IHttpClientFactory httpClientFactory)
+        client.DefaultRequestHeaders.Add("User-Agent", "backend");
+        client.DefaultRequestHeaders.Add("Authorization", $"token {token}");
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<List<GitHubRepository>>> GetGitHubProjects()
+    {
+        try
         {
-            _client = httpClientFactory.CreateClient();
-            _client.DefaultRequestHeaders.Add("User-Agent", "backend");
-            _client.DefaultRequestHeaders.Add("Authorization", $"token {_token}");
+            var repoLink = $"https://api.github.com/users/{user}/repos";
+
+            var response = await client.GetStringAsync(repoLink);
+            var repos = JsonConvert.DeserializeObject<List<GitHubRepository>>(response);
+
+            foreach (var repo in repos)
+            {
+                repo.languages = await GetLanguages(repo.name);
+            }
+
+            return Ok(repos);
+        }
+        catch (HttpRequestException e)
+        {
+            return StatusCode(500, new { message = "Failed to fetch repositories", error = e.Message });
         }
 
-        /// <summary>
-        /// Retrieves GitHub repositories for the configured user
-        /// </summary>
-        /// <returns>List of GitHub repositories with their languages</returns>
-        /// <response code="200">Returns the list of repositories</response>
-        /// <response code="404">If no repositories are found</response>
-        /// <response code="500">If there was an internal error</response>
-        [HttpGet]
-        [ProducesResponseType(typeof(List<GitHubRepository>), 200)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(500)]
-        public async Task<ActionResult<List<GitHubRepository>>> GetGitHubProjects()
+
+    }
+
+    private async Task<List<string>> GetLanguages(string repoName)
+    {
+        try
         {
-            try
-            {
-                var repoLink = $"{GithubApiBaseUrl}/users/{_user}/repos";
-                var response = await _client.GetStringAsync(repoLink);
-                var repos = JsonConvert.DeserializeObject<List<GitHubRepository>>(response);
+            var langLink = $"https://api.github.com/repos/{user}/{repoName}/languages";
 
-                if (repos?.Count == 0)
-                    return NotFound("No repositories found");
+            var response = await client.GetStringAsync(langLink);
+            var langs = JsonConvert.DeserializeObject<Dictionary<string, object>>(response);
 
-                foreach (var repo in repos!)
-                {
-                    repo.Languages = await GetLanguages(repo.Name);
-                }
-
-                return Ok(repos);
-            }
-            catch (HttpRequestException e)
-            {
-                return StatusCode(500, new { message = "Failed to fetch repositories", error = e.Message });
-            }
+            return new List<string>(langs.Keys);
         }
-
-        private async Task<List<string>> GetLanguages(string repoName)
+        catch
         {
-            try
-            {
-                var langLink = $"{GithubApiBaseUrl}/repos/{_user}/{repoName}/languages";
-                var response = await _client.GetStringAsync(langLink);
-                var langs = JsonConvert.DeserializeObject<Dictionary<string, int>>(response);
-                return langs?.Keys.ToList() ?? new List<string>();
-            }
-            catch (Exception)
-            {
-                return new List<string>();
-            }
+            return new List<string>();
         }
     }
 }
