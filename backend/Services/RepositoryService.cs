@@ -7,18 +7,15 @@ namespace backend.Services
     public class RepositoryService : IRepositoryService
     {
         private readonly ApplicationDbContext _context;
-        private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
         private readonly ILogger<RepositoryService> _logger;
 
         public RepositoryService(
             ApplicationDbContext context,
-            IConfiguration configuration,
             HttpClient httpClient,
             ILogger<RepositoryService> logger)
         {
             _context = context;
-            _configuration = configuration;
             _httpClient = httpClient;
             _logger = logger;
         }
@@ -30,8 +27,8 @@ namespace backend.Services
 
         public async Task SyncRepositoriesAsync()
         {
-            var username = Enviornment.GetEnvironmentVariable("USER");
             var token = Environment.GetEnvironmentVariable("TOKEN");
+            var username = Enviornment.GetEnvironmentVariable("USER");
 
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "backend");
             _httpClient.DefaultRequestHeaders.Add("Authorization", $"token {token}");

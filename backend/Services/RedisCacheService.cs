@@ -1,3 +1,4 @@
+using backend.Models;
 using StackExchange.Redis;
 using System.Text.Json;
 
