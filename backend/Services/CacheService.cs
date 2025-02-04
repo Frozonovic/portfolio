@@ -1,5 +1,7 @@
 using backend.Services;
 
+using StackExchange.Redis;
+
 namespace backend.Services
 {
     public interface ICacheService
