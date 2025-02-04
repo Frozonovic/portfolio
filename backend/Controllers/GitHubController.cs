@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc;
+
 public class GitHubRepository
 {
     public required int id { get; set; }
