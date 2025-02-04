@@ -1,81 +1,43 @@
-using backend.Data;
-using backend.Models;
-using backend.Services;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using StackExchange.Redis;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace backend.Services
 {
     public class GitHubSyncService : BackgroundService
     {
-        private readonly string USER = Environment.GetEnvironmentVariable("USER");
-        private readonly string TOKEN = Environment.GetEnvironmentVariable("TOKEN");
-
         private readonly ILogger<GitHubSyncService> _logger;
-        private readonly RedisCacheService _redisCacheService;
-        private readonly ApplicationDbContext _dbContext;
-        private readonly HttpClient _httpClient;
+        private readonly IRepositoryService _repositoryService;
+        private readonly RedisCacheService _cacheService;
+        private const int SYNC_INTERVAL_MINUTES = 60;
 
-        public GitHubSyncService(ILogger<GitHubSyncService> logger, RedisCacheService redisCacheService, ApplicationDbContext dbContext, IHttpClientFactory httpClientFactory)
+        public GitHubSyncService(
+            ILogger<GitHubSyncService> logger,
+            IRepositoryService repositoryService,
+            RedisCacheService cacheService)
         {
             _logger = logger;
-            _redisCacheService = redisCacheService;
-            _dbContext = dbContext;
-            _httpClient = httpClientFactory.CreateClient();
-
-            _httpClient.DefaultRequestHeaders.Add("User-Agent", "backend");
-            _httpClient.DefaultRequestHeaders.Add("Authorization", $"token {TOKEN}");
+            _repositoryService = repositoryService;
+            _cacheService = cacheService;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var interval = TimeSpan.FromHours(1);
-
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation($"GitHub sync service started at: {DateTimeOffset.Now}");
-
                 try
                 {
-                    var response = await _httpClient.GetAsync($"https://api.github.com/users/{USER}/repos");
-                    var repos = JsonConvert.DeserializeObject<List<Repository>>(response);
-
-                    if (response != null)
-                    {
-                        foreach (var repo in repos)
-                        {
-                            var existingRepo = _dbContext.Repositories.FirstOrDefault(r => r.id == repo.id);
-                            if (existingRepo == null)
-                            {
-                                _dbContext.Repositories.Add(repo);
-                            }
-                            else
-                            {
-                                existingRepo.name = repo.name;
-                                existingRepo.description = repo.description;
-                                existingRepo.svn_url = repo.svn_url;
-                                existingRepo.languages = repo.languages;
-                            }
-                        }
-
-                        await _dbContext.SaveChangesAsync();
-
-                        var reposJson = JsonConvert.SerializeObject(repos);
-                        await _redisCacheService.SetCacheAsync("github_projects_cache_key", reposJson);
-                    }
+                    _logger.LogInformation("Starting GitHub repository sync");
+                    await _repositoryService.SyncRepositoriesAsync();
+                    await _cacheService.InvalidateRepositoriesCache();
+                    _logger.LogInformation("GitHub repository sync completed");
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error during GitHub sync: {ex.Message}");
+                    _logger.LogError(ex, "Error occurred while syncing repositories");
                 }
-            }
 
-            await Task.Delay(interval, stoppingToken);
+                await Task.Delay(TimeSpan.FromMinutes(SYNC_INTERVAL_MINUTES), stoppingToken);
+            }
         }
     }
 }

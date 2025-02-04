@@ -1,34 +1,57 @@
 using StackExchange.Redis;
-using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace backend.Services
 {
     public class RedisCacheService
     {
-        private readonly string REDIS_URL = Environment.GetEnvironmentVariable("REDIS_URL");
+        private readonly IConnectionMultiplexer _redis;
+        private readonly ILogger<RedisCacheService> _logger;
+        private const string REPO_CACHE_KEY = "github:repositories";
+        private const int CACHE_EXPIRY_HOURS = 24;
 
-        private readonly ConnectionMultiplexer _redisConnection;
-        private readonly IDatabase _database;
-
-        public RedisCacheService()
+        public RedisCacheService(ILogger<RedisCacheService> logger)
         {
-            _redisConnection = ConnectionMultiplexer.Connect(REDIS_URL);
-            _database = _redisConnection.GetDatabase();
+            _redis = ConnectionMultiplexer.Connect(Enviornment.GetEnvironmentVariable("REDIS_URL"));
+            _logger = logger;
         }
 
-        public async Task<string> GetCacheAsync(string key)
+        public async Task<T> GetAsync<T>(string key)
         {
-            return await _database.StringGetAsync(key);
+            var db = _redis.GetDatabase();
+            var value = await db.StringGetAsync(key);
+
+            if (value.IsNull)
+                return default;
+
+            return JsonSerializer.Deserialize<T>(value);
         }
 
-        public async Task SetCacheAsync(string key, string value)
+        public async Task SetAsync<T>(string key, T value, TimeSpan? expiry = null)
         {
-            await _database.StringSetAsync(key, value, TimeSpan.FromHours(1));
+            var db = _redis.GetDatabase();
+            var serializedValue = JsonSerializer.Serialize(value);
+            await db.StringSetAsync(
+                key,
+                serializedValue,
+                expiry ?? TimeSpan.FromHours(CACHE_EXPIRY_HOURS)
+            );
         }
 
-        public async Task RemoveCacheAsync(string key)
+        public async Task<IEnumerable<Repository>> GetRepositoriesAsync()
         {
-            await _database.KeyDeleteAsync(key);
+            return await GetAsync<IEnumerable<Repository>>(REPO_CACHE_KEY);
+        }
+
+        public async Task SetRepositoriesAsync(IEnumerable<Repository> repositories)
+        {
+            await SetAsync(REPO_CACHE_KEY, repositories);
+        }
+
+        public async Task InvalidateRepositoriesCache()
+        {
+            var db = _redis.GetDatabase();
+            await db.KeyDeleteAsync(REPO_CACHE_KEY);
         }
     }
 }
