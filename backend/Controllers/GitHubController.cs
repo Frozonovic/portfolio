@@ -3,7 +3,7 @@ using backend.Models;
 using backend.Services;
 
 using Microsoft.AspNetCore.Mvc;
-using System.Linq
+using System.Linq;
 
 namespace backend.Controllers
 {
