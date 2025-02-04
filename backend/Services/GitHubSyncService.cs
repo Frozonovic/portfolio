@@ -1,6 +1,8 @@
 using backend.Data;
 using backend.Services;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace backend.Services
 {
     public class GitHubSyncService : BackgroundService

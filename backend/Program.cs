@@ -1,6 +1,7 @@
 using backend.Data;
 using backend.Services;
 
+using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 
 var DATABASE_URL = Environment.GetEnvironmentVariable("DATABASE_URL");
