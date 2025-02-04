@@ -1,3 +1,8 @@
+using backend.Data;
+using backend.Services;
+
+using StackExchance.Redis;
+
 var DATABASE_URL = Environment.GetEnvironmentVariable("DATABASE_URL");
 var REDIS_URL = Environment.GetEnvironmentVariable("REDIS_URL");
 
