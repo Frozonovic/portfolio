@@ -28,7 +28,7 @@ namespace backend.Services
         public async Task SyncRepositoriesAsync()
         {
             var token = Environment.GetEnvironmentVariable("TOKEN");
-            var username = Enviornment.GetEnvironmentVariable("USER");
+            var username = Environment.GetEnvironmentVariable("USER");
 
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "backend");
             _httpClient.DefaultRequestHeaders.Add("Authorization", $"token {token}");
