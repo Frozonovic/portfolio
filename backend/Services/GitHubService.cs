@@ -40,9 +40,13 @@ namespace backend.Services
 
         public async Task<List<GitHubRepo>> GetUserRepositoriesAsync()
         {
+            var _username = Environment.GetEnvironmentVariable("USER");
+
             var response = await _httpClient.GetAsync($"https://api.github.com/users/{_username}/repos");
             response.EnsureSuccessStatusCode();
+
             var repos = await response.Content.ReadFromJsonAsync<List<GitHubRepo>>();
+
             return repos ?? new List<GitHubRepo>();
         }
     }
