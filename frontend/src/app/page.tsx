@@ -12,7 +12,13 @@ const fetchProjects = async (): Promise<Project[]> => {
 
   console.log(`Fetching projects from: http://[${url}]:${port}/api/github`)
 
-  const response = await fetch(`http://[${url}]:${port}/api/github`)
+  const response = await fetch(`http://[${url}]:${port}/api/github`, {
+    headers: {
+      'Host': 'backend.railway.internal'
+    },
+    mode: 'cors',
+    credentials: 'include'
+  })
 
   if (!response.ok) {
     throw new Error(`Failed to fetch Data: ${response.statusText}`)
