@@ -1,3 +1,5 @@
+'use client'
+
 import GitHubRepo from 't/GitHubRepo'
 import Image from 'next/image'
 import { Project } from 't/Project'
