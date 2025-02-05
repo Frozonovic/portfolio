@@ -1,4 +1,4 @@
-'use server'
+'use client'
 
 import GitHubRepo from 't/GitHubRepo'
 import Image from 'next/image'
