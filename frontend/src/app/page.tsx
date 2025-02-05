@@ -5,8 +5,8 @@ import ProjectCard from 'c/ProjectCard'
 import Footer from 'c/Footer'
 
 const fetchProjects = async (): Promise<Project[]> => {
-  const url = process.env.NEXT_PUBLIC_INTERNAL || "http://localhost"
-  const port = process.env.NEXT_PUBLIC_PORT || "5000"
+  const url: string = process.env.NEXT_PUBLIC_INTERNAL || "http://localhost"
+  const port: string = process.env.NEXT_PUBLIC_PORT || "5000"
 
   const response = await fetch(`${url}:${port}/api/github`)
 
