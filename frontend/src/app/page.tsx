@@ -10,9 +10,9 @@ const fetchProjects = async (): Promise<Project[]> => {
   const url: string = process.env.NEXT_PUBLIC_INTERNAL || "http://localhost"
   const port: string = process.env.NEXT_PUBLIC_PORT || "5000"
 
-  console.log(`Fetching projects from: http://${url}:${port}/api/github`)
+  console.log(`Fetching projects from: ${url}:${port}/api/github`)
 
-  const response = await fetch(`http://${url}:${port}/api/github`, {
+  const response = await fetch(`${url}:${port}/api/github`, {
     headers: {
       'Host': 'backend.railway.internal'
     },
