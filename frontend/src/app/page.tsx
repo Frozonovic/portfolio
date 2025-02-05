@@ -5,8 +5,10 @@ import ProjectCard from 'c/ProjectCard'
 import Footer from 'c/Footer'
 
 const fetchProjects = async (): Promise<Project[]> => {
-  const url = process.env.BACKEND_PRIVATE_URL || "http://localhost:5000"
-  const response = await fetch(`${url}/api/github`)
+  const url = process.env.BACKEND_PRIVATE_URL || "http://localhost"
+  const port = process.env.BACKEND_PORT || "5000"
+  
+  const response = await fetch(`${url}:${port}/api/github`)
 
   if (!response.ok) {
     throw new Error(`Failed to fetch Data: ${response.statusText}`)
