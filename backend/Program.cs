@@ -6,7 +6,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         policy => policy.WithOrigins(
             "http://localhost:3000",
-            "https://jbl-frontend.up.railway.app")
+            "https://jbl-frontend.up.railway.app",
+            Environment.GetEnvironmentVariable("FRONTEND_PRIVATE_URL") ?? throw new InvalidOperationException("Environment variable FRONTEND_PRIVATE_URL does not exist."))
                         .AllowAnyHeader()
                         .AllowAnyMethod());
 });
