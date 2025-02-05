@@ -10,7 +10,7 @@ const fetchProjects = async (): Promise<Project[]> => {
   const url: string = process.env.NEXT_PUBLIC_INTERNAL || "http://localhost"
   const port: string = process.env.NEXT_PUBLIC_PORT || "5000"
 
-  const response = await fetch(`http://[${url}:${port}]/api/github`)
+  const response = await fetch(`http://[${url}]:${port}/api/github`)
 
   if (!response.ok) {
     throw new Error(`Failed to fetch Data: ${response.statusText}`)
