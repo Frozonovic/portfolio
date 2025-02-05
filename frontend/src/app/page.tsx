@@ -1,5 +1,3 @@
-'use client'
-
 import GitHubRepo from 't/GitHubRepo'
 import Image from 'next/image'
 import { Project } from 't/Project'
@@ -10,9 +8,9 @@ const fetchProjects = async (): Promise<Project[]> => {
   const url: string = process.env.NEXT_PUBLIC_INTERNAL || "http://localhost"
   const port: string = process.env.NEXT_PUBLIC_PORT || "5000"
 
-  console.log(`Fetching projects from: ${url}:${port}/api/github`)
+  console.log(`Fetching projects from: http://${url}:${port}/api/github`)
 
-  const response = await fetch(`${url}:${port}/api/github`, {
+  const response = await fetch(`http://${url}:${port}/api/github`, {
     mode: 'cors',
     credentials: 'include'
   })
