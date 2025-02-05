@@ -5,7 +5,7 @@ import ProjectCard from 'c/ProjectCard'
 import Footer from 'c/Footer'
 
 const fetchProjects = async (): Promise<Project[]> => {
-  const url = process.env.NEXT_PRIVATE_API_URL || "http://localhost:5000"
+  const url = process.env.BACKEND_PRIVATE_URL || "http://localhost:5000"
   const response = await fetch(`${url}/api/github`)
 
   if (!response.ok) {
