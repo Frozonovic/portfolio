@@ -4,10 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
-        policy => policy.WithOrigins(
-            "http://localhost:3000",
-            Environment.GetEnvironmentVariable("FRONTEND_PUBLIC") ?? throw new InvalidOperationException("Environment variable FRONTEND_PUBLIC does not exist."),
-            Environment.GetEnvironmentVariable("FRONTEND_PRIVATE") ?? throw new InvalidOperationException("Environment variable FRONTEND_PRIVATE does not exist."))
+        policy => policy.AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod());
 });
@@ -47,6 +44,6 @@ app.MapControllerRoute(
 
 // 🔧 **Set the port dynamically for Railway**
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-app.Urls.Add($"http://*:{port}");
+app.Urls.Add($"http://0.0.0.0:{port}");
 
 app.Run();
