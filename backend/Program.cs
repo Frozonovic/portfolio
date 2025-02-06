@@ -1,3 +1,5 @@
+using backend.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure CORS
@@ -9,11 +11,10 @@ builder.Services.AddCors(options =>
                         .AllowAnyMethod());
 });
 
-// Register HttpClient
-builder.Services.AddHttpClient();
-
-// Register services, such as controllers and views
+// Register services
 builder.Services.AddControllers();
+builder.Services.AddHttpClient();
+builder.Services.AddHostedService<GitHubUpdateService>();
 
 var app = builder.Build();
 
