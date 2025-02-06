@@ -12,5 +12,6 @@
     <PackageVersion Include="Npgsql" Version="8.0.6" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.2.0" />
     <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="8.0.1" />
+    <PackageVersion Include="System.Memory" Version="4.6.0" />
   </ItemGroup>
 </Project>
