@@ -5,7 +5,6 @@ import GitHubRepo from 't/GitHubRepo'
 import Image from 'next/image'
 import { Project } from 't/Project'
 import ProjectCard from 'c/ProjectCard'
-import { Languages } from 'lucide-react'
 
 const fetchProjects = async (): Promise<Project[]> => {
   const url: string = process.env.NEXT_PUBLIC_INTERNAL || 'http://localhost'
