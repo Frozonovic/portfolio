@@ -30,7 +30,7 @@ const fetchProjects = async (): Promise<Project[]> => {
     description: p.description || 'No description available',
     languages: p.languages,
     image: `/images/${(p.name).toLowerCase()}.png`,
-    svn_url: p.svn_url
+    svn_url: p.svn_url || 'https://github.com/Frozonovic/'
   }))
 }
 
