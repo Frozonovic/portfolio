@@ -1,5 +1,4 @@
 using backend.Services;
-using Microsoft.AspNetCore;
 
 try {
     Console.WriteLine("Starting Program.cs...");
