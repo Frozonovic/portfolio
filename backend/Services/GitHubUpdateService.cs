@@ -1,13 +1,11 @@
 using backend.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,7 +23,7 @@ namespace backend.Services
 
         private readonly HttpClient _httpClient;
 
-        public GitHubUpdateService(IServiceScopeFactory scopeFactory)
+        public GitHubUpdateService()
         {
             TOKEN = Environment.GetEnvironmentVariable("TOKEN") ?? throw new InvalidOperationException("Environment variable TOKEN is not set.");
             USER = Environment.GetEnvironmentVariable("USER") ?? throw new InvalidOperationException("Environment variable USER is not set.");
