@@ -13,15 +13,23 @@ builder.Services.AddCors(options =>
                         .AllowAnyMethod());
 });
 
+Console.WriteLine("Line 16 has been reached...");
+
 // Register services
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 builder.Services.AddHostedService<GitHubUpdateService>();
 
+Console.WriteLine("Line 22 has been reached...");
+
 var app = builder.Build();
+
+Console.WriteLine("Line 27 has been reached...");
 
 // Use CORS
 app.UseCors("AllowFrontend");
+
+Console.WriteLine("Line 32 has been reached...");
 
 // Configure middleware
 if (app.Environment.IsDevelopment())
@@ -33,6 +41,8 @@ else
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+
+Console.WriteLine("Line 45 has been reached...");
 
 app.UseRouting();
 
