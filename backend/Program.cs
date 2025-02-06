@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddHttpClient();
 
 // Register services, such as controllers and views
-builder.Services.AddControllers(); // Use this instead of AddControllersWithViews for API-only apps
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
