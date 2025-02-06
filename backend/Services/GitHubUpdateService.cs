@@ -25,6 +25,8 @@ namespace backend.Services
 
         public GitHubUpdateService()
         {
+            Console.WriteLine("Setting up GitHubUpdateService...");
+
             TOKEN = Environment.GetEnvironmentVariable("TOKEN") ?? throw new InvalidOperationException("Environment variable TOKEN is not set.");
             USER = Environment.GetEnvironmentVariable("USER") ?? throw new InvalidOperationException("Environment variable USER is not set.");
             PGHOST = Environment.GetEnvironmentVariable("PGHOST") ?? throw new InvalidOperationException("Environment variable PGHOST is not set.");
@@ -41,6 +43,8 @@ namespace backend.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            Console.WriteLine("Running ExecuteAsync()...");
+
             while (!stoppingToken.IsCancellationRequested)
             {
                 await UpdateDatabase();
@@ -50,6 +54,8 @@ namespace backend.Services
 
         private async Task UpdateDatabase()
         {
+            Console.WriteLine("Running UpdateDatabase()...");
+
             try
             {
                 var repoLink = $"https://api.github.com/users/{USER}/repos";
@@ -89,6 +95,8 @@ namespace backend.Services
 
         private async Task<List<string>> GetLanguages(string repoName)
         {
+            Console.WriteLine("Running GetLanguages()...");
+            
             try
             {
                 var langLink = $"https://api.github.com/repos/{USER}/{repoName}/languages";

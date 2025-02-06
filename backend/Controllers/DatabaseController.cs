@@ -20,6 +20,8 @@ namespace backend.Controllers
 
         public DatabaseController()
         {
+            Console.WriteLine("Setting up DatabaseController...");
+
             PGHOST = Environment.GetEnvironmentVariable("PGHOST") ?? throw new InvalidOperationException("Environment variable PGHOST is not set.");
             PGPORT = Environment.GetEnvironmentVariable("PGPORT") ?? throw new InvalidOperationException("Environment variable PGPORT is not set.");
             PGUSER = Environment.GetEnvironmentVariable("PGUSER") ?? throw new InvalidOperationException("Environment variable  PGUSER is not set.");
@@ -30,6 +32,8 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<List<GitHubRepository>>> GetProjectsFromDatabase()
         {
+            Console.WriteLine("Running GetProjectsFromDatabase()...");
+            
             var projects = new List<GitHubRepository>();
 
             try
