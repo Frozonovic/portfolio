@@ -12,11 +12,19 @@ namespace backend.Controllers
     [Route("api/[controller]")]
     public class DatabaseController : ControllerBase
     {
-        private readonly string _connectionString;
+        private readonly string PGHOST;
+        private readonly string PGPORT;
+        private readonly string PGUSER;
+        private readonly string PGPASSWORD;
+        private readonly string PGDATABASE;
 
         public DatabaseController()
         {
-            _connectionString = Environment.GetEnvironmentVariable("DATABASE_URL") ?? throw new InvalidOperationException("Environment variable 'DATABASE_URL' is not set.");
+            PGHOST = Environment.GetEnvironmentVariable("PGHOST") ?? throw new InvalidOperationException("Environment variable PGHOST is not set.");
+            PGPORT = Environment.GetEnvironmentVariable("PGPORT") ?? throw new InvalidOperationException("Environment variable PGPORT is not set.");
+            PGUSER = Environment.GetEnvironmentVariable("PGUSER") ?? throw new InvalidOperationException("Environment variable  PGUSER is not set.");
+            PGPASSWORD = Environment.GetEnvironmentVariable("PGPASSWORD") ?? throw new InvalidOperationException("Environment variable PGPASSWORD is not set.");
+            PGDATABASE = Environment.GetEnvironmentVariable("PGDATABASE") ?? throw new InvalidOperationException("Environment variable PGDATABASE is not set.");
         }
 
         [HttpGet]
@@ -26,7 +34,7 @@ namespace backend.Controllers
 
             try
             {
-                await using var conn = new NpgsqlConnection(_connectionString);
+                await using var conn = new NpgsqlConnection($"Host={PGHOST};Port={PGPORT};Username={PGUSER};Password={PGPASSWORD};Database={PGDATABASE}");
                 await conn.OpenAsync();
 
                 var query = "SELECT * FROM repositories";

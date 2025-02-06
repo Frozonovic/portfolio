@@ -59,7 +59,7 @@ namespace backend.Services
                 var response = await _httpClient.GetStringAsync(repoLink);
                 var repos = JsonConvert.DeserializeObject<List<GitHubRepository>>(response);
 
-                if (response == null) { return; }
+                if (repos == null) { return; }
 
                 using var conn = new NpgsqlConnection($"Host={PGHOST};Port={PGPORT};Username={PGUSER};Password={PGPASSWORD};Database={PGDATABASE}");
                 await conn.OpenAsync();
