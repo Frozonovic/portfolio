@@ -18,7 +18,8 @@ const fetchProjects = async (): Promise<Project[]> => {
   })
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch data: ${response.statusText}`)
+    const error = await response.text()
+    throw new Error(`Failed to fetch data: ${response.statusText} - ${error}`)
   }
 
   const data = await response.json()
