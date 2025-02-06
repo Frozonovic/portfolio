@@ -1,6 +1,6 @@
 using backend.Services;
-
-Console.WriteLine("Starting Program.cs...");
+try {
+    Console.WriteLine("Starting Program.cs...");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,3 +55,9 @@ app.Urls.Add($"http://*:{port}");
 app.Run();
 
 Console.WriteLine("Program.cs is fully executed...");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"An error occurred: {ex.Message}");
+    throw;
+}
