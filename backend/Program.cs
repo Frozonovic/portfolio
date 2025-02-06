@@ -1,5 +1,7 @@
 using backend.Services;
 
+Console.WriteLine("Starting Program.cs...");
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure CORS
