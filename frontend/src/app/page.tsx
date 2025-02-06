@@ -10,8 +10,6 @@ const fetchProjects = async (): Promise<Project[]> => {
   const url: string = process.env.NEXT_PUBLIC_INTERNAL || 'http://localhost'
   const port: string = process.env.NEXT_PUBLIC_PORT || '5000'
 
-  console.log(`Fetching projects from: http://${url}:${port}/api/github`)
-
   const response = await fetch(`http://${url}:${port}/api/github`, {
     headers: { 'Host': 'backend.railway.internal' },
     cache: 'no-store'
@@ -24,15 +22,13 @@ const fetchProjects = async (): Promise<Project[]> => {
 
   const data = await response.json()
 
-  console.log(data)
-
   return data.map((p: GitHubRepo) => ({
     id: p.id,
     name: p.name,
     description: p.description || 'No description available',
     languages: p.languages,
     image: `/images/${(p.name).toLowerCase()}.png`,
-    svn_url: p.svn_url || 'https://github.com/Frozonovic/'
+    svn_url: p.svn_url
   }))
 }
 

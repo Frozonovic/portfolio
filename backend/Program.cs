@@ -29,13 +29,12 @@ else
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
-    // app.UseHttpsRedirection();
 }
 
 app.UseRouting();
 
 // Map controllers for API routes
-app.MapControllers(); // This is important for API route mapping
+app.MapControllers();
 
 // Optionally configure a default route if you need it
 app.MapControllerRoute(
