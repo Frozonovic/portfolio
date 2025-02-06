@@ -33,7 +33,7 @@ namespace backend.Controllers
         public async Task<ActionResult<List<GitHubRepository>>> GetProjectsFromDatabase()
         {
             Console.WriteLine("Running GetProjectsFromDatabase()...");
-            
+
             var projects = new List<GitHubRepository>();
 
             try

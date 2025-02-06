@@ -96,7 +96,7 @@ namespace backend.Services
         private async Task<List<string>> GetLanguages(string repoName)
         {
             Console.WriteLine("Running GetLanguages()...");
-            
+
             try
             {
                 var langLink = $"https://api.github.com/repos/{USER}/{repoName}/languages";
