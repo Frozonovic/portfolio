@@ -1,4 +1,5 @@
 using backend.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -6,7 +7,7 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,7 +23,6 @@ namespace backend.Services
         private readonly string PGPASSWORD;
         private readonly string PGDATABASE;
 
-        private readonly IServiceScopeFactory _scopeFactory;
         private readonly HttpClient _httpClient;
 
         public GitHubUpdateService(IServiceScopeFactory scopeFactory)
@@ -35,7 +35,6 @@ namespace backend.Services
             PGPASSWORD = Environment.GetEnvironmentVariable("PGPASSWORD") ?? throw new InvalidOperationException("Environment variable PGPASSWORD is not set.");
             PGDATABASE = Environment.GetEnvironmentVariable("PGDATABASE") ?? throw new InvalidOperationException("Environment variable PGDATABASE is not set.");
 
-            _scopeFactory = scopeFactory;
             _httpClient = new HttpClient();
 
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "backend");
@@ -84,9 +83,9 @@ namespace backend.Services
                     await cmd.ExecuteNonQueryAsync();
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine($"Error updating database: {e.Message}");
+                Console.WriteLine($"Error updating database: {ex.Message}");
             }
         }
 
