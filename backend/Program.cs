@@ -1,11 +1,4 @@
-using backend.Services;
-
-try {
-    Console.WriteLine("Starting Program.cs...");
-
 var builder = WebApplication.CreateBuilder(args);
-
-Console.WriteLine("Line 7 has been reached...");
 
 // Configure CORS
 builder.Services.AddCors(options =>
@@ -16,12 +9,11 @@ builder.Services.AddCors(options =>
                         .AllowAnyMethod());
 });
 
-Console.WriteLine("Line 18 has been reached...");
-
-// Register services
-builder.Services.AddControllers();
+// Register HttpClient
 builder.Services.AddHttpClient();
-builder.Services.AddHostedService<GitHubUpdateService>();
+
+// Register services, such as controllers and views
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -54,11 +46,3 @@ var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
 app.Urls.Add($"http://*:{port}");
 
 app.Run();
-
-Console.WriteLine("Program.cs is fully executed...");
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"An error occurred: {ex.Message}");
-    throw;
-}
