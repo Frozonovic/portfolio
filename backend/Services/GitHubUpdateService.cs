@@ -83,9 +83,9 @@ namespace backend.Services
                     await cmd.ExecuteNonQueryAsync();
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine($"Error updating database: {ex.Message}");
+                Console.WriteLine("Error updating database!");
             }
         }
 
