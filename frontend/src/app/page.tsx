@@ -1,8 +1,8 @@
+import Footer from 'c/Footer'
 import GitHubRepo from 't/GitHubRepo'
 import Image from 'next/image'
 import { Project } from 't/Project'
-import ProjectCard from 'c/ProjectCard'
-import Footer from 'c/Footer'
+import ProjectList from 'c/ProjectList'
 
 const fetchProjects = async (): Promise<Project[]> => {
   const url: string = process.env.NEXT_PUBLIC_INTERNAL || "http://localhost"
@@ -11,8 +11,10 @@ const fetchProjects = async (): Promise<Project[]> => {
   console.log(`Fetching projects from: http://${url}:${port}/api/github`)
 
   const response = await fetch(`http://${url}:${port}/api/github`, {
+    headers: { 'Host': 'backend.railway.internal' },
     mode: 'cors',
-    credentials: 'include'
+    credentials: 'include',
+    cache: 'no-store'
   })
 
   if (!response.ok) {
@@ -68,15 +70,12 @@ const ProjectsPage = async () => {
       </section>
 
       {/* Project Grid */}
-      <section className='py-8'>
-        <h2 className='section-header text-3xl font-bold flex items-center h-full justify-center mb-8'>My Projects</h2>
-        <div className='container mx-auto max-w-7xl px-6'>
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </div>
-        </div>
+      <section className="py-8">
+        <h2 className="section-header text-3xl font-bold flex items-center h-full justify-center mb-8">
+          My Projects
+        </h2>
+        {/* Pass projects data to a client component */}
+        <ProjectList projects={projects} />
       </section>
 
       <Footer />
