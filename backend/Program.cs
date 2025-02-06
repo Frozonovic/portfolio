@@ -1,4 +1,5 @@
 using backend.Services;
+
 try {
     Console.WriteLine("Starting Program.cs...");
 
