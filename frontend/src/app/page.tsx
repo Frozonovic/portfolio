@@ -24,6 +24,8 @@ const fetchProjects = async (): Promise<Project[]> => {
 
   const data = await response.json()
 
+  console.log(data)
+
   return data.map((p: GitHubRepo) => ({
     id: p.id,
     name: p.name,
