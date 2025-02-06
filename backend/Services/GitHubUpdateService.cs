@@ -14,23 +14,32 @@ namespace backend.Services
 {
     public class GitHubUpdateService : BackgroundService
     {
+        private readonly string TOKEN;
+        private readonly string USER;
+        private readonly string PGHOST;
+        private readonly string PGPORT;
+        private readonly string PGUSER;
+        private readonly string PGPASSWORD;
+        private readonly string PGDATABASE;
+
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly HttpClient _httpClient;
-        private readonly string _token;
-        private readonly string _user;
-        private readonly string _connectionString;
 
         public GitHubUpdateService(IServiceScopeFactory scopeFactory)
         {
+            TOKEN = Environment.GetEnvironmentVariable("TOKEN") ?? throw new InvalidOperationException("Environment variable TOKEN is not set.");
+            USER = Environment.GetEnvironmentVariable("USER") ?? throw new InvalidOperationException("Environment variable USER is not set.");
+            PGHOST = Environment.GetEnvironmentVariable("PGHOST") ?? throw new InvalidOperationException("Environment variable PGHOST is not set.");
+            PGPORT = Environment.GetEnvironmentVariable("PGPORT") ?? throw new InvalidOperationException("Environment variable PGPORT is not set.");
+            PGUSER = Environment.GetEnvironmentVariable("PGUSER") ?? throw new InvalidOperationException("Environment variable  PGUSER is not set.");
+            PGPASSWORD = Environment.GetEnvironmentVariable("PGPASSWORD") ?? throw new InvalidOperationException("Environment variable PGPASSWORD is not set.");
+            PGDATABASE = Environment.GetEnvironmentVariable("PGDATABASE") ?? throw new InvalidOperationException("Environment variable PGDATABASE is not set.");
+
             _scopeFactory = scopeFactory;
             _httpClient = new HttpClient();
 
-            _token = Environment.GetEnvironmentVariable("TOKEN") ?? throw new InvalidOperationException("Environment variable TOKEN is not set.");
-            _user = Environment.GetEnvironmentVariable("USER") ?? throw new InvalidOperationException("Environment variable USER is not set.");
-            _connectionString = Environment.GetEnvironmentVariable("DATABASE_URL") ?? throw new InvalidOperationException("Environment variable DATABASE_URL is not set.");
-
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "backend");
-            _httpClient.DefaultRequestHeaders.Add("Authorization", $"token {_token}");
+            _httpClient.DefaultRequestHeaders.Add("Authorization", $"token {TOKEN}");
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -46,13 +55,13 @@ namespace backend.Services
         {
             try
             {
-                var repoLink = $"https://api.github.com/users/{_user}/repos";
+                var repoLink = $"https://api.github.com/users/{USER}/repos";
                 var response = await _httpClient.GetStringAsync(repoLink);
                 var repos = JsonConvert.DeserializeObject<List<GitHubRepository>>(response);
 
                 if (response == null) { return; }
 
-                using var conn = new NpgsqlConnection(_connectionString);
+                using var conn = new NpgsqlConnection($"Host={PGHOST};Port={PGPORT};Username={PGUSER};Password={PGPASSWORD};Database={PGDATABASE}");
                 await conn.OpenAsync();
 
                 foreach (var repo in repos)
@@ -85,7 +94,7 @@ namespace backend.Services
         {
             try
             {
-                var langLink = $"https://api.github.com/repos/{_user}/{repoName}/languages";
+                var langLink = $"https://api.github.com/repos/{USER}/{repoName}/languages";
                 var response = await _httpClient.GetStringAsync(langLink);
                 var langs = JsonConvert.DeserializeObject<Dictionary<string, int>>(response);
 
