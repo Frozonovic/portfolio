@@ -56,9 +56,10 @@ namespace backend.Controllers
 
                 return Ok(projects);
             }
-            catch (Exception ex)
+            catch
             {
-                return StatusCode(500, new { message = "Failed to retrieve projects", error = ex.Message });
+                Console.WriteLine("An exception occurred in DatabaseController.cs!");
+                return StatusCode(500);
             }
         }
     }

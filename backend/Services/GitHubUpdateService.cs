@@ -85,7 +85,7 @@ namespace backend.Services
             }
             catch
             {
-                Console.WriteLine("Error updating database!");
+                Console.WriteLine("An exception occurred in GitHubUpdateService.cs!");
             }
         }
 
@@ -101,6 +101,7 @@ namespace backend.Services
             }
             catch
             {
+                Console.WriteLine("A different exception occurred in GitHubUpdateService.cs!");
                 return new List<string>();
             }
         }
