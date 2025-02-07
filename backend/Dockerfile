@@ -27,4 +27,4 @@ COPY --from=build /app/out ./
 EXPOSE 80
 
 # Set the entry point to run your application
-ENTRYPOINT ["dotnet", "YourAppName.dll"]
+ENTRYPOINT ["dotnet", "backend.dll"]
