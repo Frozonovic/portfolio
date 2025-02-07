@@ -73,5 +73,6 @@ catch (Exception ex)
     {
         Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
     }
+
     throw;
 }

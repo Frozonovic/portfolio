@@ -76,8 +76,12 @@ namespace backend.Services
                     var query = @"
                         INSERT INTO repositories (id, name, description, svn_url, languages)
                         VALUES (@id, @name, @desc, @svn, @langs)
-                        ON CONFLICT (id) DO UPDATE 
-                        SET name = EXCLUDED.name, description = EXCLUDED.description, svn_url = EXCLUDED.svn_url, languages = EXCLUDED.languages;";
+                        ON CONFLICT (id)
+                        DO UPDATE SET 
+                            name = EXCLUDED.name,
+                            description = EXCLUDED.description,
+                            svn_url = EXCLUDED.svn_url,
+                            languages = EXCLUDED.languages;";
 
                     await using var cmd = new NpgsqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("id", repo.Id);
@@ -94,11 +98,12 @@ namespace backend.Services
                 Console.WriteLine("🚨 An exception occurred in GitHubUpdateService.cs! 🚨");
                 Console.WriteLine($"Message: {ex.Message}");
                 Console.WriteLine($"Stack Trace: {ex.StackTrace}");
-                
+
                 if (ex.InnerException != null)
                 {
                     Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
                 }
+
                 throw;
             }
         }
@@ -120,14 +125,15 @@ namespace backend.Services
             catch (Exception ex)
             {
                 Console.WriteLine("🚨 A different exception occurred in GitHubUpdateService.cs! 🚨");
-                
+
                 Console.WriteLine($"Message: {ex.Message}");
                 Console.WriteLine($"Stack Trace: {ex.StackTrace}");
-                
+
                 if (ex.InnerException != null)
                 {
                     Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
                 }
+
                 throw;
             }
         }
