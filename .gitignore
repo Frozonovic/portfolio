@@ -54,9 +54,3 @@ secrets.json
 .vscode/
 portfolio.sln
 .fake
-
-# Railway
-railway.toml
-
-# Docker
-Dockerfile
