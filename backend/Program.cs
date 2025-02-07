@@ -65,8 +65,10 @@ try
 catch (Exception ex)
 {
     Console.WriteLine("🚨 Fatal Error in Program.cs 🚨");
+
     Console.WriteLine($"Message: {ex.Message}");
     Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+
     if (ex.InnerException != null)
     {
         Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");

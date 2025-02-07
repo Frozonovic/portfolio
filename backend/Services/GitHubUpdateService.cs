@@ -89,9 +89,17 @@ namespace backend.Services
                     await cmd.ExecuteNonQueryAsync();
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Console.WriteLine("An exception occurred in GitHubUpdateService.cs!");
+                Console.WriteLine("🚨 An exception occurred in GitHubUpdateService.cs! 🚨");
+                Console.WriteLine($"Message: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
+                throw;
             }
         }
 
@@ -106,13 +114,21 @@ namespace backend.Services
                 var langs = JsonConvert.DeserializeObject<Dictionary<string, int>>(response);
 
                 Console.WriteLine("Returning languages...");
-                
+
                 return langs?.Keys.ToList() ?? new List<string>();
             }
-            catch
+            catch (Exception ex)
             {
-                Console.WriteLine("A different exception occurred in GitHubUpdateService.cs!");
-                return new List<string>();
+                Console.WriteLine("🚨 A different exception occurred in GitHubUpdateService.cs! 🚨");
+                
+                Console.WriteLine($"Message: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
+                throw;
             }
         }
     }
