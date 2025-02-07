@@ -1,2 +1,9 @@
 [build]
+builder = "nixpacks"
 base = "mcr.mocrosoft.com/dotnet/aspnet:8.0"
+
+[deploy]
+startCommand = 'Console.WriteLine("Starting!")'
+healthCheckPath = "/"
+healthCheckTimeout = 100
+restartPolicyType = "never"
