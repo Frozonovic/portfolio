@@ -1,21 +1,30 @@
-# Use the official .NET SDK to build the app
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+# Use the official .NET SDK image for building the app
+FROM mcr.microsoft.com/dotnet/sdk:8.0.405 AS build
+
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy everything and restore dependencies
-COPY . ./
+# Copy the .csproj file and restore the dependencies
+COPY *.csproj ./
 RUN dotnet restore
 
-# Build and publish the app
-RUN dotnet publish -c Release -o /app/out
+# Copy the rest of the application files
+COPY . ./
 
-# Use the runtime image for the final container
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+# Build the application
+RUN dotnet publish -c Release -o out
+
+# Use the official .NET runtime image for the final stage (smaller image)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+
+# Set the working directory inside the container
 WORKDIR /app
+
+# Copy the built app from the build stage
 COPY --from=build /app/out ./
 
-# Expose the port your app runs on (change if needed)
-EXPOSE 5000
+# Expose the port that your app will listen on
+EXPOSE 80
 
-# Run the app
-ENTRYPOINT ["dotnet", "backend.dll"]
+# Set the entry point to run your application
+ENTRYPOINT ["dotnet", "YourAppName.dll"]
