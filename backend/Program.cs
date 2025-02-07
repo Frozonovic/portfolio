@@ -1,5 +1,4 @@
 using backend.Services;
-using System;
 
 try
 {
@@ -24,6 +23,8 @@ try
     builder.Services.AddControllers();
     builder.Services.AddHttpClient();
     builder.Services.AddHostedService<GitHubUpdateService>();
+
+    Console.WriteLine("Line 28 has been reached...");
 
     var app = builder.Build();
 
@@ -54,6 +55,8 @@ try
     // 🔧 **Set the port dynamically for Railway**
     var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
     app.Urls.Add($"http://*:{port}");
+
+    Console.WriteLine("App is running...");
 
     app.Run();
 

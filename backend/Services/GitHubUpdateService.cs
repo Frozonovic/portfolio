@@ -71,6 +71,8 @@ namespace backend.Services
                 {
                     repo.Languages = await GetLanguages(repo.Name);
 
+                    Console.WriteLine(repo);
+
                     var query = @"
                         INSERT INTO repositories (id, name, description, svn_url, languages)
                         VALUES (@id, @name, @desc, @svn, @langs)
@@ -103,6 +105,8 @@ namespace backend.Services
                 var response = await _httpClient.GetStringAsync(langLink);
                 var langs = JsonConvert.DeserializeObject<Dictionary<string, int>>(response);
 
+                Console.WriteLine("Returning languages...");
+                
                 return langs?.Keys.ToList() ?? new List<string>();
             }
             catch
