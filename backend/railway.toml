@@ -1,2 +1,3 @@
 [build]
+clear_cache = true
 base = "mcr.mocrosoft.com/dotnet/aspnet:8.0"
