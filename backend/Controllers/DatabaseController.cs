@@ -41,7 +41,7 @@ namespace backend.Controllers
                 await using var conn = new NpgsqlConnection($"Host={PGHOST};Port={PGPORT};Username={PGUSER};Password={PGPASSWORD};Database={PGDATABASE}");
                 await conn.OpenAsync();
 
-                var query = "SELECT * FROM repositories";
+                var query = "SELECT * FROM repositories ORDER BY name";
 
                 await using var cmd = new NpgsqlCommand(query, conn);
                 await using var reader = await cmd.ExecuteReaderAsync();
