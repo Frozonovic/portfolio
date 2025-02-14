@@ -13,7 +13,7 @@ export default function LandingLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased min-h-screen flex flex-col">
+      <body className="antialiased min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
         {children}
       </body>
     </html>

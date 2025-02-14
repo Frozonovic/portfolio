@@ -15,7 +15,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         <>
             {/* Card */}
             <div
-                className="section border border-gray-300 bg-white p-4 rounded-lg shadow-lg flex flex-col justify-between h-full transition-all duration-500 hover:shadow-xl hover:scale-105 cursor-pointer"
+                className="section border  p-4 rounded-lg shadow-lg flex flex-col justify-between h-full transition-all duration-500 hover:shadow-xl hover:scale-105 cursor-pointer"
                 onClick={openModal}
             >
                 <div>
@@ -28,17 +28,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             className="w-full h-full object-cover"
                         />
                     </div>
-                    <h3 className="section-header text-2xl font-semibold text-gray-800 min-h-[3rem] flex items-center">
+                    <h3 className="section-header text-2xl font-semibold min-h-[3rem] flex items-center">
                         {project.name}
                     </h3>
-                    <p className="section-content text-gray-700 mt-2 min-h-[4rem]">
+                    <p className="section-content mt-2 min-h-[4rem]">
                         {project.description}
                     </p>
                     <div className="mt-2 min-h-[2.5rem] flex flex-wrap items-start">
                         {project.languages.map((t) => (
                             <span
                                 key={t}
-                                className="bg-blue-100 text-blue-800 text-sm font-medium rounded-full px-3 py-1 mr-2 mb-2"
+                                className="text-sm font-medium rounded-full px-3 py-1 mr-2 mb-2"
                             >
                                 {t}
                             </span>
@@ -48,7 +48,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                 <div className="mt-4">
                     <Link
                         href={project.svn_url}
-                        className="inline-block w-full text-center px-5 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                        className="inline-block w-full text-center px-5 py-2 rounded-lg font-semibold transition-colors"
                         target="_blank"
                         onClick={(e) => e.stopPropagation()}
                     >
@@ -59,12 +59,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
             {/* Modal */}
             {isModalOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="section relative bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-3xl">
+                <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="section relative p-6 rounded-lg shadow-lg w-11/12 max-w-3xl">
                         {/* Close Button */}
                         <button
                             onClick={closeModal}
-                            className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center hover:text-gray-800 hover:bg-gray-300 rounded-full"
+                            className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center rounded-full"
                             aria-label="Close"
                         >
                             &times;
@@ -86,7 +86,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             {project.languages.map((t) => (
                                 <span
                                     key={t}
-                                    className="bg-blue-100 text-blue-800 text-sm font-medium rounded-full px-3 py-1 mr-2 mb-2"
+                                    className="text-sm font-medium rounded-full px-3 py-1 mr-2 mb-2"
                                 >
                                     {t}
                                 </span>
@@ -94,7 +94,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         </div>
                         <Link
                             href={project.svn_url}
-                            className="inline-block mt-4 px-5 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                            className="inline-block mt-4 px-5 py-2 rounded-lg font-semibold transition-colors"
                             target="_blank"
                         >
                             View Project

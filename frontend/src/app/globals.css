@@ -4,23 +4,23 @@
 
 :root {
   /* Light Mode Variables */
-  --background: #f8f9fa; /* Light gray for background */
-  --foreground: #1f2937; /* Dark gray for text */
-  --primary: #3b82f6;    /* Blue for accents */
-  --secondary: #64748b;  /* Muted gray-blue for secondary text */
-  --card-bg: #ffffff;    /* White background for cards/sections */
-  --card-border: #e5e7eb; /* Light gray border for separation */
+  --background: #f8fafc; /* Softer white */
+  --foreground: #1e293b; /* Dark blue-gray */
+  --primary: #2563eb; /* Refined blue for accents */
+  --secondary: #475569; /* Muted slate gray */
+  --card-bg: #e2e8f0; /* Lighter gray-blue for cards */
+  --card-border: #cbd5e1; /* Softer gray border */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     /* Dark Mode Variables */
-    --background: #1e293b; /* Dark navy for background */
-    --foreground: #f1f5f9; /* Light gray for text */
-    --primary: #60a5fa;    /* Softer blue for accents */
-    --secondary: #94a3b8;  /* Neutral gray-blue for secondary text */
-    --card-bg: #334155;    /* Darker navy for cards/sections */
-    --card-border: #475569; /* Subtle gray border for separation */
+    --background: #121826; /* Deep navy */
+    --foreground: #f8fafc; /* Soft white */
+    --primary: #3b82f6; /* Bright blue */
+    --secondary: #94a3b8; /* Neutral gray-blue */
+    --card-bg: #1e293b; /* Darker navy for cards */
+    --card-border: #334155; /* Subtle gray border */
   }
 }
 
@@ -30,21 +30,16 @@ body {
   font-family: 'Inter', Arial, Helvetica, sans-serif;
   line-height: 1.6;
   margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   margin: 0.5em 0;
   color: var(--foreground);
 }
 
 .button {
-  font-family: inherit;
   font-size: 1rem;
   padding: 0.5rem 1rem;
   background-color: var(--primary);
@@ -56,26 +51,18 @@ h6 {
 }
 
 .button:hover {
-  background-color: #2563eb; /* Slightly darker blue */
-  transform: scale(1.05); /* Subtle scaling effect */
+  background-color: #1e40af; /* Darker blue */
+  transform: scale(1.05);
 }
 
 /* Section Styling */
-.summary {
-  background-color: var(--card-bg);
-  border: 1px solid var(--card-border);
-  padding: 2rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-}
-
-.section {
+.summary, .section {
   background-color: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 0.5rem;
   padding: 2rem;
   margin-bottom: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .section-header {
@@ -92,7 +79,6 @@ h6 {
   padding: 1rem 0;
   background-color: var(--card-bg);
   text-align: center;
-  justify-content: center;
   border-top: 1px solid var(--card-border);
   color: var(--secondary);
 }
