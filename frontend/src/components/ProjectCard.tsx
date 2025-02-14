@@ -48,7 +48,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                 <div className="mt-4">
                     <Link
                         href={project.svn_url}
-                        className="inline-block mt-4 px-5 py-2 rounded-lg font-semibold transition-colors"
+                        className="project-link inline-block mt-4 px-5 py-2 rounded-lg font-semibold transition-colors"
                         target="_blank"
                         onClick={(e) => e.stopPropagation()}
                     >
@@ -94,7 +94,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         </div>
                         <Link
                             href={project.svn_url}
-                            className="inline-block mt-4 px-5 py-2 rounded-lg font-semibold transition-colors"
+                            className="project-link inline-block mt-4 px-5 py-2 rounded-lg font-semibold transition-colors"
                             target="_blank"
                         >
                             View Project
