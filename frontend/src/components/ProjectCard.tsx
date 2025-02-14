@@ -38,7 +38,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         {project.languages.map((t) => (
                             <span
                                 key={t}
-                                className="text-sm bg-gray-400 font-medium rounded-full px-3 py-1 mr-2 mb-2"
+                                className="text-sm font-medium rounded-full px-3 py-1 mr-2 mb-2"
                             >
                                 {t}
                             </span>
@@ -48,7 +48,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                 <div className="mt-4">
                     <Link
                         href={project.svn_url}
-                        className="bg-blue-800 inline-block mt-4 px-5 py-2 rounded-lg font-semibold transition-colors"
+                        className="inline-block mt-4 px-5 py-2 rounded-lg font-semibold transition-colors"
                         target="_blank"
                         onClick={(e) => e.stopPropagation()}
                     >
@@ -86,7 +86,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             {project.languages.map((t) => (
                                 <span
                                     key={t}
-                                    className="text-sm bg-gray-400 font-medium rounded-full px-3 py-1 mr-2 mb-2"
+                                    className="text-sm font-medium rounded-full px-3 py-1 mr-2 mb-2"
                                 >
                                     {t}
                                 </span>
@@ -94,7 +94,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         </div>
                         <Link
                             href={project.svn_url}
-                            className="bg-blue-800 inline-block mt-4 px-5 py-2 rounded-lg font-semibold transition-colors"
+                            className="inline-block mt-4 px-5 py-2 rounded-lg font-semibold transition-colors"
                             target="_blank"
                         >
                             View Project

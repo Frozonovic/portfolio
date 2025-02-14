@@ -10,6 +10,9 @@
   --secondary: #475569; /* Muted slate gray */
   --card-bg: #e2e8f0; /* Lighter gray-blue for cards */
   --card-border: #cbd5e1; /* Softer gray border */
+  --button-bg: #00bfff;
+  --button-text: #000000;
+  --button-hover: #00ffbf;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,6 +24,9 @@
     --secondary: #94a3b8; /* Neutral gray-blue */
     --card-bg: #1e293b; /* Darker navy for cards */
     --card-border: #334155; /* Subtle gray border */
+    --button-bg: #0066ff;
+    --button-text: #ffffff;
+    --button-hover: #8000ff;
   }
 }
 
@@ -42,8 +48,8 @@ h1, h2, h3, h4, h5, h6 {
 .button {
   font-size: 1rem;
   padding: 0.5rem 1rem;
-  background-color: var(--primary);
-  color: #ffffff;
+  background-color: var(--button-bg);
+  color: var(--button-text);
   border: none;
   border-radius: 0.375rem;
   cursor: pointer;
@@ -51,7 +57,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .button:hover {
-  background-color: #1e40af; /* Darker blue */
+  background-color: var(--button-hover); /* Darker blue */
   transform: scale(1.05);
 }
 
