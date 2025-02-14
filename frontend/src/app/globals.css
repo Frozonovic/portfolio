@@ -27,6 +27,9 @@
     --button-bg: #0066ff;
     --button-text: #ffffff;
     --button-hover: #8000ff;
+    --span-bg: #0066ff;
+    --span-text: #ffffff;
+    --span-hover: #8000ff;
   }
 }
 
@@ -96,4 +99,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .footer-link:hover {
   text-decoration: underline;
+}
+
+span {
+  background-color: var(--span-bg);
+  color: var(--span-text);
 }
