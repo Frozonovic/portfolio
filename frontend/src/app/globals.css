@@ -4,32 +4,35 @@
 
 :root {
   /* Light Mode Variables */
-  --background: #f8fafc; /* Softer white */
-  --foreground: #1e293b; /* Dark blue-gray */
-  --primary: #2563eb; /* Refined blue for accents */
-  --secondary: #475569; /* Muted slate gray */
-  --card-bg: #e2e8f0; /* Lighter gray-blue for cards */
-  --card-border: #cbd5e1; /* Softer gray border */
-  --button-bg: #00bfff;
-  --button-text: #000000;
-  --button-hover: #00ffbf;
+  --background: #f8fafc;
+  --foreground: #1e293b;
+  --primary: #2563eb;
+  --secondary: #475569;
+  --card-bg: #e2e8f0;
+  --card-border: #cbd5e1;
+  --span-bg: #e6f0ff;
+  --span-text: #6c7c93;
+  --project-bg: #00bfff;
+  --project-text: #000000;
+  --project-hover: #00ffbf;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     /* Dark Mode Variables */
-    --background: #121826; /* Deep navy */
-    --foreground: #f8fafc; /* Soft white */
-    --primary: #3b82f6; /* Bright blue */
-    --secondary: #94a3b8; /* Neutral gray-blue */
-    --card-bg: #1e293b; /* Darker navy for cards */
-    --card-border: #334155; /* Subtle gray border */
-    --button-bg: #0066ff;
-    --button-text: #ffffff;
-    --button-hover: #8000ff;
-    --span-bg: #0066ff;
-    --span-text: #ffffff;
+    --background: #121826;
+    --foreground: #f8fafc;
+    --primary: #3b82f6;
+    --secondary: #94a3b8;
+    --card-bg: #1e293b;
+    --card-border: #334155;
+    --span-bg: #003d99;
+    --span-text: #ebfafa;
     --span-hover: #8000ff;
+    --project-bg: #0066ff;
+    --project-text: #ffffff;
+    --project-hover: #8000ff;
+
   }
 }
 
@@ -99,6 +102,15 @@ h1, h2, h3, h4, h5, h6 {
 
 .footer-link:hover {
   text-decoration: underline;
+}
+
+.project-link {
+  background-color: var(--project-bg);
+  color: var(--project-text);
+}
+
+.project-link:hover {
+  background-color: var(--project-hover);
 }
 
 span {
